@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>RainbowApp.Api</AssemblyName>
+    <RootNamespace>RainbowApp.Api</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RainbowApp.Application\RainbowApp.Application.csproj" />
+    <ProjectReference Include="..\RainbowApp.Infrastructure\RainbowApp.Infrastructure.csproj" />
+  </ItemGroup>
+
+
+</Project>
