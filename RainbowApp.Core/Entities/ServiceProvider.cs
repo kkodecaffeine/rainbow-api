@@ -2,7 +2,7 @@
 
 namespace RainbowApp.Core.Entities
 {
-    public class ServiceProvider
+    public class ServiceProvider : BaseEntity
     {
         public string LocalCode { get; set; }
         public string MgtNo { get; set; }

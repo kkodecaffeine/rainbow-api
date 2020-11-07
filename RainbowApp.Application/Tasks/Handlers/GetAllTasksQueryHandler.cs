@@ -22,16 +22,8 @@ namespace RainbowApp.Application.Tasks.Handlers
         }
         public async Task<List<ServiceProviderDto>> Handle(GetAllTasksQuery request, CancellationToken cancellationToken)
         {
-            try
-            {
-                var result = await _unitOfWork.Tasks.GetAll();
-                return _mapper.Map<List<ServiceProviderDto>>(result.ToList());
-            }
-            catch (System.Exception ex)
-            {
-
-            }
-            return null;
+            var result = await _unitOfWork.Tasks.GetAll();
+            return _mapper.Map<List<ServiceProviderDto>>(result.ToList());
         }
     }
 }
