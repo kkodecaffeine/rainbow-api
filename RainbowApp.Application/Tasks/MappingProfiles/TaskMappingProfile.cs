@@ -11,7 +11,6 @@ namespace RainbowApp.Application.Tasks.MappingProfiles
         {
             CreateMap<CreateTaskCommand, Task>();
             CreateMap<UpdateTaskCommand, Task>();
-            CreateMap<Task, TaskDto>();
             CreateMap<ServiceProvider, ServiceProviderDto>();
         }
     }

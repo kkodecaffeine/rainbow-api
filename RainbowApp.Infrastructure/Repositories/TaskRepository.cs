@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using RainbowApp.Application.Interfaces;
+using System.Linq;
 
 namespace RainbowApp.Infrastructure.Repositories
 {
@@ -38,16 +39,16 @@ namespace RainbowApp.Infrastructure.Repositories
         //    }
         //}
 
-        //public async Task<Core.Entities.Task> Get(int id)
-        //{
-        //    var sql = "SELECT * FROM Tasks WHERE Id = @Id;";
-        //    using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
-        //    {
-        //        connection.Open();
-        //        var result = await connection.QueryAsync<Core.Entities.Task>(sql, new { Id = id });
-        //        return result.FirstOrDefault();
-        //    }
-        //}
+        public async Task<Core.Entities.ServiceProvider> Get(string mgtNo)
+        {
+            var sql = "SELECT * FROM tblServiceProvider WHERE MgtNo = @MgtNo;";
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                connection.Open();
+                var result = await connection.QueryAsync<Core.Entities.ServiceProvider>(sql, new { MgtNo = mgtNo });
+                return result.FirstOrDefault();
+            }
+        }
 
         public async Task<IEnumerable<Core.Entities.ServiceProvider>> GetAll()
         {
