@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -21,9 +21,9 @@ namespace RainbowApp.Application.Tasks.Handlers
             _mapper = mapper;
         }
 
-        public async Task<List<NotificationDto>> Handle(GetAllTasksQuery request, CancellationToken cancellationToken)
+        public async Task<List<NotificationDto>> Handle(GetNotificationsQuery request, CancellationToken cancellationToken)
         {
-            var result = await _unitOfWork.Tasks.GetAll();
+            var result = await _unitOfWork.Notis.GetNotifications(request.UserId, false);
             return _mapper.Map<List<NotificationDto>>(result.ToList());
         }
     }
