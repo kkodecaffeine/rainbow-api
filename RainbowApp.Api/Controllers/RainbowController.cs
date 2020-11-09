@@ -16,7 +16,7 @@ namespace RainbowApp.Api.Controllers
         {
             return await Mediator.Send(command);
         }
-
+        
         [HttpGet]
         public async Task<ActionResult<List<ServiceProviderDto>>> GetAll()
         {

@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using RainbowApp.Core.Entities;
+using RainbowApp.Application.Tasks.Dto;
+using RainbowApp.Application.Tasks.Queries;
 
 namespace RainbowApp.Api.Controllers
 {
@@ -10,9 +11,9 @@ namespace RainbowApp.Api.Controllers
     public class NotificationController : ApiController
     {
         [HttpGet]
-        public async Task<ActionResult<List<Notification>>> GetAll()
+        public async Task<ActionResult<List<NotificationDto>>> GetNotifications([FromQuery] int userId)
         {
-            return await Mediator.Send(new GetAllTasksQuery());
+            return await Mediator.Send(new GetNotificationsQuery { UserId = userId, IsGetOnlyUnread = false });
         }
     }
 }

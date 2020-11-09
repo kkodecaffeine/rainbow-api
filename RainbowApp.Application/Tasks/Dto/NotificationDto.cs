@@ -13,7 +13,7 @@ namespace RainbowApp.Application.Tasks.Dto
         public DateTime CreatedYmd { get; set; } = DateTime.Now;
         public string Message { get; set; }
 
-        public string CreatedYmdSt => this.CreatedYmd.ToString("dd-MMM-yyyy HH:mm:ss");
+        public string CreatedYmdSt => this.CreatedYmd.ToString("yyyy-dd-MM HH:mm:ss");
         public string IsReadSt => this.IsRead ? "YES" : "NO";
 
         public string FromUserName { get; set; }

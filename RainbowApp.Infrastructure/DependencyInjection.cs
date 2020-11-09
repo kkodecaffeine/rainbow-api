@@ -9,6 +9,7 @@ namespace RainbowApp.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             services.AddTransient<ITaskRepository, TaskRepository>();
+            services.AddTransient<INotiRepository, NotiRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             return services;
         } 
