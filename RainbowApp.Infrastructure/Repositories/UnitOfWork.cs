@@ -8,6 +8,13 @@ namespace RainbowApp.Infrastructure.Repositories
         {
             Tasks = taskRepository;
         }
+
+        public UnitOfWork(INotiRepository notiRepository)
+        {
+            Notis = notiRepository;
+        }
+
         public ITaskRepository Tasks { get; }
+        public INotiRepository Notis { get; }
     }
 }
