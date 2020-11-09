@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using RainbowApp.Application;
+using RainbowApp.Core.Helpers;
 using RainbowApp.Infrastructure;
 
 namespace TaskManagementApp.Api
@@ -25,6 +26,8 @@ namespace TaskManagementApp.Api
             services.AddInfrastructure();
             services.AddControllers();
 
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
             services.AddSwaggerGen(config =>
             {
                 config.SwaggerDoc("v1", new OpenApiInfo() { Title = "Rainbow bridge", Version = "v1" });
@@ -43,7 +46,16 @@ namespace TaskManagementApp.Api
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
+            // custom jwt auth middleware
+            app.UseMiddleware<JwtMiddleware>();
+
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

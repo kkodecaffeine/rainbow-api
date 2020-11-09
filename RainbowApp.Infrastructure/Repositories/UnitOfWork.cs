@@ -4,18 +4,16 @@ namespace RainbowApp.Infrastructure.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public UnitOfWork(ITaskRepository taskRepository
-            ,INotiRepository notiRepository)
+        public UnitOfWork(IUserRepository userRepository
+            , ITaskRepository taskRepository
+            , INotiRepository notiRepository)
         {
+            Users = userRepository;
             Tasks = taskRepository;
             Notis = notiRepository;
         }
 
-        //public UnitOfWork(INotiRepository notiRepository)
-        //{
-        //    Notis = notiRepository;
-        //}
-
+        public IUserRepository Users { get; }
         public ITaskRepository Tasks { get; }
         public INotiRepository Notis { get; }
     }
