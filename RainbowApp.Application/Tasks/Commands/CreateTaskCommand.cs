@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using System;
-using RainbowApp.Core.Enums;
 
 namespace RainbowApp.Application.Tasks.Commands
 {
@@ -8,7 +7,6 @@ namespace RainbowApp.Application.Tasks.Commands
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public TaskStatus Status { get; set; }
         public DateTime DueDate { get; set; }
     }
 }

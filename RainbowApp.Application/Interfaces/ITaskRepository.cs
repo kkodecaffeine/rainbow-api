@@ -2,7 +2,7 @@
 
 namespace RainbowApp.Application.Interfaces
 {
-    public interface ITaskRepository: IGenericRepository<ServiceProvider>
+    public interface ITaskRepository : IGenericRepository<ServiceProvider>
     {
     }
 }
