@@ -5,7 +5,6 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using RainbowApp.Application.Interfaces;
 using RainbowApp.Core.Entities;
-using RainbowApp.Core.Helpers;
 using System.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
@@ -18,11 +17,12 @@ namespace RainbowApp.Infrastructure.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly IConfiguration _configuration;
-        private readonly AppSettings _appSettings;
+        private readonly string _secret;
 
         public UserRepository(IConfiguration configuration)
         {
             _configuration = configuration;
+            _secret = _configuration.GetSection("AppSettings:Secret").Value;
         }
 
         public async Task<AuthenticateResponse> Authenticate(string mailAddr, string password)
@@ -75,7 +75,7 @@ namespace RainbowApp.Infrastructure.Repositories
         {
             // generate token that is valid for 7 days
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var key = Encoding.ASCII.GetBytes(_secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] { new Claim("id", user.UserId.ToString()) }),
