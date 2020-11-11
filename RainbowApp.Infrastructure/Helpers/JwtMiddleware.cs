@@ -26,12 +26,12 @@ namespace RainbowApp.Core.Helpers
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(' ').Last();
 
             if (token != null)
-                attachUserToContext(context, userRepository, token);
+                AttachUserToContext(context, userRepository, token);
 
             await _next(context);
         }
 
-        private void attachUserToContext(HttpContext context, IUserRepository userRepository, string token)
+        private void AttachUserToContext(HttpContext context, IUserRepository userRepository, string token)
         {
             try
             {
