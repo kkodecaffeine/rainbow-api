@@ -34,7 +34,7 @@ namespace RainbowApp.Core.Entities
 
                     if (string.IsNullOrEmpty((string)property.GetValue(this, null)))
                     {
-                        property.SetValue(this, string.Empty, null);
+                        property.SetValue(this.ToString().ToLower(), string.Empty, null);
                     }
                 }
             }
