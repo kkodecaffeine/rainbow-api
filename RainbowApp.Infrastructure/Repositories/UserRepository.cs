@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using BC = BCrypt.Net.BCrypt;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -12,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System;
 using RainbowApp.Application.Model;
+using System.Security.Cryptography;
 
 namespace RainbowApp.Infrastructure.Repositories
 {
@@ -44,6 +46,35 @@ namespace RainbowApp.Infrastructure.Repositories
             var token = GenerateJwtToken(user);
 
             return new AuthenticateResponse(user, token);
+        }
+
+        public async Task<int> AddUser(RegisterRequest model, string origin)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            connection.Open();
+            var result = await connection.QueryAsync<TblUser>("SELECT * FROM tblUser WHERE MailAddr = @MailAddr", new { MailAddr = model.MailAddr });
+
+            // validate
+            if (result.Count() > 0)
+            {
+                // send already registered error in email to prevent account enumeration
+                //sendAlreadyRegisteredEmail(model.Email, origin);
+                return 0;
+            }
+
+            var name = model.MailAddr.Split('@').FirstOrDefault();
+            var verificationToken = RandomTokenString();
+            var domain = model.MailAddr.Split('@').LastOrDefault();
+
+            model.Password = BC.HashPassword(model.Password);
+
+            var sql = $"INSERT INTO tblUser (Name, MailAddr, Password, VerificationToken, Domain, CreatedYmd) Values ('{name}', '{model.MailAddr}', '{model.Password}', '{verificationToken}', '{domain}', '{DateTime.UtcNow}');";
+
+            var affectedRows = await connection.ExecuteAsync(sql);
+            return affectedRows;
+
+            // send email
+            //sendVerificationEmail(account, origin);
         }
 
         public async Task<IEnumerable<User>> GetAll()
@@ -90,6 +121,15 @@ namespace RainbowApp.Infrastructure.Repositories
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        private string RandomTokenString()
+        {
+            using var rngCryptoServiceProvider = new RNGCryptoServiceProvider();
+            var randomBytes = new byte[40];
+            rngCryptoServiceProvider.GetBytes(randomBytes);
+            // convert random bytes to hex string
+            return BitConverter.ToString(randomBytes).Replace("-", "");
         }
     }
 }
