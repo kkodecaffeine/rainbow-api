@@ -19,5 +19,11 @@ namespace RainbowApp.Api.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost("add")]
+        public async Task<ActionResult<int>> Create(RegisterRequest model)
+        {
+            return await Mediator.Send(new CreateUserCommand { RegisterRequest = model, Origin = Request.Headers["origin"] });
+        }
     }
 }
