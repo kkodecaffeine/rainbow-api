@@ -8,6 +8,7 @@ namespace RainbowApp.Application.Tasks.MappingProfiles
     {
         public TaskMappingProfile()
         {
+            CreateMap<RegisterRequest, TblUser>();
             //CreateMap<CreateTaskCommand, Task>();
             //CreateMap<UpdateTaskCommand, Task>();
             CreateMap<ServiceProvider, TblServiceProvider>();
