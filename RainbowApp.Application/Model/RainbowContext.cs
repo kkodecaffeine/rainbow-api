@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
 namespace RainbowApp.Application.Model
 {
-    public partial class RainbowContext : DbContext
+    public partial class RainbowContext : DbContext, IRainbowContext
     {
         public RainbowContext()
         {
@@ -13,6 +14,16 @@ namespace RainbowApp.Application.Model
         public RainbowContext(DbContextOptions<RainbowContext> options)
             : base(options)
         {
+        }
+
+        public string GetDbConnection()
+        {
+            return base.Database.GetDbConnection().ConnectionString;
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await base.SaveChangesAsync();
         }
 
         public virtual DbSet<TblMember> TblMembers { get; set; }
@@ -24,7 +35,6 @@ namespace RainbowApp.Application.Model
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=rainbow-bridge.co3a9rtnyqgv.ap-northeast-2.rds.amazonaws.com,1433;Database=rainbow;Uid=rainbowsa;Pwd=anwlroakstp;");
             }
         }

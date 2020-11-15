@@ -11,16 +11,21 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System;
+using RainbowApp.Application.Model;
 
 namespace RainbowApp.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
         private readonly IConfiguration _configuration;
+        private readonly string _connectionString;
         private readonly string _secret;
 
-        public UserRepository(IConfiguration configuration)
+
+        public UserRepository(IRainbowContext context, IConfiguration configuration)
         {
+
+            _connectionString = context.GetDbConnection();
             _configuration = configuration;
             _secret = _configuration.GetSection("AppSettings:Secret").Value;
         }
@@ -45,7 +50,8 @@ namespace RainbowApp.Infrastructure.Repositories
         {
             var sql = @"SELECT * FROM tblMember";
 
-            using var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            using var connection = new SqlConnection(_connectionString);
             connection.Open();
             var result = await connection.QueryAsync<User>(sql);
             return result;
@@ -55,7 +61,7 @@ namespace RainbowApp.Infrastructure.Repositories
         {
             var sql = @"SELECT * FROM tblMember WHERE UserId = @UserId";
 
-            using var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            using var connection = new SqlConnection(_connectionString);
             connection.Open();
             var result = await connection.QueryAsync<User>(sql, new { UserId = userId });
             return result.FirstOrDefault();
@@ -65,7 +71,7 @@ namespace RainbowApp.Infrastructure.Repositories
         {
             var sql = @"SELECT * FROM tblMember WHERE MailAddr = @MailAddr AND Password = @Password";
 
-            using var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            using var connection = new SqlConnection(_connectionString);
             connection.Open();
             var result = await connection.QueryAsync<User>(sql, new { MailAddr = mailAddr, Password = password });
             return result.FirstOrDefault();

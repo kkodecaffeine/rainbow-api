@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using RainbowApp.Application.Tasks.Commands;
-using RainbowApp.Application.Tasks.Dto;
+using RainbowApp.Application.Model;
 using RainbowApp.Core.Entities;
 
 namespace RainbowApp.Application.Tasks.MappingProfiles
@@ -11,8 +10,8 @@ namespace RainbowApp.Application.Tasks.MappingProfiles
         {
             //CreateMap<CreateTaskCommand, Task>();
             //CreateMap<UpdateTaskCommand, Task>();
-            CreateMap<ServiceProvider, ServiceProviderDto>();
-            CreateMap<Notification, NotificationDto>();
+            CreateMap<ServiceProvider, TblServiceProvider>();
+            CreateMap<Notification, TblNotification>();
         }
     }
 }

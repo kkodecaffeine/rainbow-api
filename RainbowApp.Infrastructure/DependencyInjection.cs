@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RainbowApp.Application.Interfaces;
+using RainbowApp.Application.Model;
 using RainbowApp.Infrastructure.Repositories;
 
 namespace RainbowApp.Infrastructure
@@ -8,6 +9,7 @@ namespace RainbowApp.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
+            services.AddTransient<IRainbowContext, RainbowContext>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ITaskRepository, TaskRepository>();
             services.AddTransient<INotiRepository, NotiRepository>();

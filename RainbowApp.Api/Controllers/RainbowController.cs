@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RainbowApp.Application.Tasks.Commands;
-using RainbowApp.Application.Tasks.Dto;
 using RainbowApp.Application.Tasks.Queries;
+using RainbowApp.Application.Model;
 
 namespace RainbowApp.Api.Controllers
 {
@@ -18,7 +18,7 @@ namespace RainbowApp.Api.Controllers
         }
         
         [HttpGet]
-        public async Task<ActionResult<List<ServiceProviderDto>>> GetAll()
+        public async Task<ActionResult<List<TblServiceProvider>>> GetAll()
         {
             return await Mediator.Send(new GetAllTasksQuery());
         }

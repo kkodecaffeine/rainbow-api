@@ -5,12 +5,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using RainbowApp.Application.Interfaces;
-using RainbowApp.Application.Tasks.Dto;
 using RainbowApp.Application.Tasks.Queries;
+using RainbowApp.Application.Model;
 
 namespace RainbowApp.Application.Tasks.Handlers
 {
-    public class GetAllTasksQueryHandler : IRequestHandler<GetAllTasksQuery, List<ServiceProviderDto>>
+    public class GetAllTasksQueryHandler : IRequestHandler<GetAllTasksQuery, List<TblServiceProvider>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -20,10 +20,10 @@ namespace RainbowApp.Application.Tasks.Handlers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<List<ServiceProviderDto>> Handle(GetAllTasksQuery request, CancellationToken cancellationToken)
+        public async Task<List<TblServiceProvider>> Handle(GetAllTasksQuery request, CancellationToken cancellationToken)
         {
             var result = await _unitOfWork.Tasks.GetAll();
-            return _mapper.Map<List<ServiceProviderDto>>(result.ToList());
+            return _mapper.Map<List<TblServiceProvider>>(result.ToList());
         }
     }
 }

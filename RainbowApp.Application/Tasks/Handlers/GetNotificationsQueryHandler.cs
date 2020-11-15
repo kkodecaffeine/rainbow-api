@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using RainbowApp.Application.Interfaces;
-using RainbowApp.Application.Tasks.Dto;
+using RainbowApp.Application.Model;
 using RainbowApp.Application.Tasks.Queries;
 
 namespace RainbowApp.Application.Tasks.Handlers
 {
-    public class GetNotificationsQueryHandler : IRequestHandler<GetNotificationsQuery, List<NotificationDto>>
+    public class GetNotificationsQueryHandler : IRequestHandler<GetNotificationsQuery, List<TblNotification>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -21,10 +21,10 @@ namespace RainbowApp.Application.Tasks.Handlers
             _mapper = mapper;
         }
 
-        public async Task<List<NotificationDto>> Handle(GetNotificationsQuery request, CancellationToken cancellationToken)
+        public async Task<List<TblNotification>> Handle(GetNotificationsQuery request, CancellationToken cancellationToken)
         {
             var result = await _unitOfWork.Notis.GetNotifications(request.UserId, false);
-            return _mapper.Map<List<NotificationDto>>(result.ToList());
+            return _mapper.Map<List<TblNotification>>(result.ToList());
         }
     }
 }
