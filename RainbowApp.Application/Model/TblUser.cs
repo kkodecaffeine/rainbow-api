@@ -1,7 +1,5 @@
 ﻿using System;
 
-#nullable disable
-
 namespace RainbowApp.Application.Model
 {
     public partial class TblUser
