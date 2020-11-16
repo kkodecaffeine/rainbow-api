@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RainbowApp.Application.Model;
 using RainbowApp.Application.Tasks.Commands;
 using RainbowApp.Core.Entities;
+using RainbowApp.Infrastructure.Filters;
 
 namespace RainbowApp.Api.Controllers
 {
@@ -21,6 +22,7 @@ namespace RainbowApp.Api.Controllers
         }
 
         [HttpPost("add")]
+        [CustomExceptionFilter]
         public async Task<ActionResult<int>> Create(RegisterRequest model)
         {
             return await Mediator.Send(new CreateUserCommand { RegisterRequest = model, Origin = Request.Headers["origin"] });
