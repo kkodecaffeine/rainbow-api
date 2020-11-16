@@ -52,15 +52,15 @@ namespace RainbowApp.Infrastructure.Repositories
         {
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
-            var result = await connection.QueryAsync<TblUser>("SELECT * FROM tblUser WHERE MailAddr = @MailAddr", new { MailAddr = model.MailAddr });
+            //var result = await connection.QueryAsync<TblUser>("SELECT * FROM tblUser WHERE MailAddr = @MailAddr", new { MailAddr = model.MailAddr });
 
-            // validate
-            if (result.Count() > 0)
-            {
-                // send already registered error in email to prevent account enumeration
-                //sendAlreadyRegisteredEmail(model.Email, origin);
-                return 0;
-            }
+            //// validate
+            //if (result.Count() > 0)
+            //{
+            //    // send already registered error in email to prevent account enumeration
+            //    //sendAlreadyRegisteredEmail(model.Email, origin);
+            //    return 0;
+            //}
 
             var name = model.MailAddr.Split('@').FirstOrDefault();
             var verificationToken = RandomTokenString();
@@ -95,6 +95,16 @@ namespace RainbowApp.Infrastructure.Repositories
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
             var result = await connection.QueryAsync<User>(sql, new { UserId = userId });
+            return result.FirstOrDefault();
+        }
+
+        public async Task<User> GetUser(string mailAddr)
+        {
+            var sql = @"SELECT * FROM tblMember WHERE MailAddr = @MailAddr";
+
+            using var connection = new SqlConnection(_connectionString);
+            connection.Open();
+            var result = await connection.QueryAsync<User>(sql, new { MailAddr = mailAddr });
             return result.FirstOrDefault();
         }
 

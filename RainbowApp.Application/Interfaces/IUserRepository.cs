@@ -12,6 +12,7 @@ namespace RainbowApp.Application.Interfaces
 
         Task<IEnumerable<User>> GetAll();
         Task<User> GetUser(int userId);
+        Task<User> GetUser(string mailAddr);
         Task<User> GetUser(string mailAddr, string password);
     }
 }
