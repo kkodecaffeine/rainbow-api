@@ -52,15 +52,6 @@ namespace RainbowApp.Infrastructure.Repositories
         {
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
-            //var result = await connection.QueryAsync<TblUser>("SELECT * FROM tblUser WHERE MailAddr = @MailAddr", new { MailAddr = model.MailAddr });
-
-            //// validate
-            //if (result.Count() > 0)
-            //{
-            //    // send already registered error in email to prevent account enumeration
-            //    //sendAlreadyRegisteredEmail(model.Email, origin);
-            //    return 0;
-            //}
 
             var name = model.MailAddr.Split('@').FirstOrDefault();
             var verificationToken = RandomTokenString();
