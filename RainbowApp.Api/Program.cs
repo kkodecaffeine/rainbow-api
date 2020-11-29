@@ -1,3 +1,7 @@
+using System;
+using Amazon;
+using Amazon.Extensions.NETCore.Setup;
+using Amazon.Runtime;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -12,9 +16,24 @@ namespace TaskManagementApp.Api
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+            .ConfigureAppConfiguration(builder =>
+            {
+                var environmentName = (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development").ToLower();
+                
+                AWSOptions awsOptions = null;
+
+                if (Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID") != null)
                 {
-                    webBuilder.UseStartup<Startup>();
-                });
+                    awsOptions = new AWSOptions
+                    {
+                        Region = RegionEndpoint.USEast1,
+                        Credentials = new EnvironmentVariablesAWSCredentials()
+                    };
+                }
+            })
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
     }
 }
