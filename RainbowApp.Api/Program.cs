@@ -26,7 +26,7 @@ namespace TaskManagementApp.Api
                 {
                     awsOptions = new AWSOptions
                     {
-                        Region = RegionEndpoint.USEast1,
+                        Region = RegionEndpoint.APNortheast2,
                         Credentials = new EnvironmentVariablesAWSCredentials()
                     };
                 }
