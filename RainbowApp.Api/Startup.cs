@@ -8,7 +8,7 @@ using RainbowApp.Application;
 using RainbowApp.Core.Helpers;
 using RainbowApp.Infrastructure;
 
-namespace TaskManagementApp.Api
+namespace RainbowApp.Api
 {
     public class Startup
     {

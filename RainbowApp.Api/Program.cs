@@ -5,7 +5,7 @@ using Amazon.Runtime;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace TaskManagementApp.Api
+namespace RainbowApp.Api
 {
     public class Program
     {
