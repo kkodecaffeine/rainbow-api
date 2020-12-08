@@ -109,6 +109,7 @@ namespace RainbowApp.Infrastructure.Repositories
             return result.FirstOrDefault();
         }
 
+        #region Generate token
         private string GenerateJwtToken(User user)
         {
             // generate token that is valid for 7 days
@@ -131,6 +132,34 @@ namespace RainbowApp.Infrastructure.Repositories
             rngCryptoServiceProvider.GetBytes(randomBytes);
             // convert random bytes to hex string
             return BitConverter.ToString(randomBytes).Replace("-", "");
+        }
+        #endregion
+
+        public async Task ForgotPassword(ForgotPasswordRequest model, string origin)
+        {
+            var sql = @"SELECT * FROM tblUser WHERE MailAddr = @MailAddr";
+
+            using var connection = new SqlConnection(_connectionString);
+            connection.Open();
+            var result = await connection.QuerySingleOrDefaultAsync<User>(sql, new { model.MailAddr });
+
+            // always return ok response to prevent email enumeration
+            if (result == null) return;
+
+            // create reset token that expires after 1 day
+            result.ResetToken = RandomTokenString();
+            result.ResetTokenExpiredYmd = DateTime.UtcNow.AddDays(1);
+
+            connection.Execute("UPDATE tblUser SET ResetToken = @ResetToken, ResetTokenExpiredYmd = @ResetTokenExpiredYmd WHERE ID = @ID"
+                , new
+                {
+                    result.ResetToken,
+                    result.ResetTokenExpiredYmd,
+                    result.UserId
+                });
+
+            // send email
+            //sendPasswordResetEmail(account, origin);
         }
     }
 }
