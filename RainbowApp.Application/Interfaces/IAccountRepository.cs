@@ -10,11 +10,12 @@ namespace RainbowApp.Application.Interfaces
 
         Task<int> AddUser(RegisterRequest model, string origin);
 
-        Task<IEnumerable<User>> GetAll();
-        Task<User> GetUser(int userId);
-        Task<User> GetUser(string mailAddr);
-        Task<User> GetUser(string mailAddr, string password);
+        Task<IEnumerable<Account>> GetAll();
+        Task<Account> GetUser(int userId);
+        Task<Account> GetUser(string mailAddr);
+        Task<Account> GetUser(string mailAddr, string password);
 
         Task ForgotPassword(ForgotPasswordRequest model, string origin);
+        Task<int> ResetPassword(ResetPasswordRequest model, int userId);
     }
 }

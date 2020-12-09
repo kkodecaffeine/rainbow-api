@@ -8,7 +8,7 @@
         public string Token { get; set; }
 
 
-        public AuthenticateResponse(User user, string token)
+        public AuthenticateResponse(Account user, string token)
         {
             UserId = user.UserId;
             Name = user.Name;

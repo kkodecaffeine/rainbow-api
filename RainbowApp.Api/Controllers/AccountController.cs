@@ -28,10 +28,28 @@ namespace RainbowApp.Api.Controllers
             return await Mediator.Send(new CreateAccountCommand { RegisterRequest = model, Origin = Request.Headers["origin"] });
         }
 
-        [HttpPost("forgot-password")]
+        // POST   /api/v1/account/password    - To create new password(if user has reset the password)
+
+        /// <summary>
+        /// Reset the current password (in case user forget the password)
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpDelete("password")]
         public async Task<ActionResult<int>> Create(ForgotPasswordRequest model)
         {
             return await Mediator.Send(new CreateForgotPasswordCommand { ForgotPasswordRequest = model, Origin = Request.Headers["origin"] });
+        }
+
+        /// <summary>
+        /// Update the password (if user knows is old password and new password)
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPut("userId/{userId}/password")]
+        public async Task<ActionResult<int>> Create(int userId, ResetPasswordRequest model)
+        {
+            return await Mediator.Send(new CreateResetPasswordCommand { ResetPasswordRequest = model, UserId = userId });
         }
     }
 }

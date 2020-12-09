@@ -68,49 +68,49 @@ namespace RainbowApp.Infrastructure.Repositories
             //sendVerificationEmail(account, origin);
         }
 
-        public async Task<IEnumerable<User>> GetAll()
+        public async Task<IEnumerable<Account>> GetAll()
         {
             var sql = @"SELECT * FROM tblMember";
 
 
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
-            var result = await connection.QueryAsync<User>(sql);
+            var result = await connection.QueryAsync<Account>(sql);
             return result;
         }
 
-        public async Task<User> GetUser(int userId)
+        public async Task<Account> GetUser(int userId)
         {
             var sql = @"SELECT * FROM tblMember WHERE UserId = @UserId";
 
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
-            var result = await connection.QueryAsync<User>(sql, new { UserId = userId });
+            var result = await connection.QueryAsync<Account>(sql, new { UserId = userId });
             return result.FirstOrDefault();
         }
 
-        public async Task<User> GetUser(string mailAddr)
+        public async Task<Account> GetUser(string mailAddr)
         {
             var sql = @"SELECT * FROM tblMember WHERE MailAddr = @MailAddr";
 
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
-            var result = await connection.QueryAsync<User>(sql, new { MailAddr = mailAddr });
+            var result = await connection.QueryAsync<Account>(sql, new { MailAddr = mailAddr });
             return result.FirstOrDefault();
         }
 
-        public async Task<User> GetUser(string mailAddr, string password)
+        public async Task<Account> GetUser(string mailAddr, string password)
         {
             var sql = @"SELECT * FROM tblMember WHERE MailAddr = @MailAddr AND Password = @Password";
 
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
-            var result = await connection.QueryAsync<User>(sql, new { MailAddr = mailAddr, Password = password });
+            var result = await connection.QueryAsync<Account>(sql, new { MailAddr = mailAddr, Password = password });
             return result.FirstOrDefault();
         }
 
         #region Generate token
-        private string GenerateJwtToken(User user)
+        private string GenerateJwtToken(Account user)
         {
             // generate token that is valid for 7 days
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -141,7 +141,7 @@ namespace RainbowApp.Infrastructure.Repositories
 
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
-            var result = await connection.QuerySingleOrDefaultAsync<User>(sql, new { model.MailAddr });
+            var result = await connection.QuerySingleOrDefaultAsync<Account>(sql, new { model.MailAddr });
 
             // always return ok response to prevent email enumeration
             if (result == null) return;
@@ -160,6 +160,34 @@ namespace RainbowApp.Infrastructure.Repositories
 
             // send email
             //sendPasswordResetEmail(account, origin);
+        }
+
+        public async Task<int> ResetPassword(ResetPasswordRequest model, int userId)
+        {
+            var sql = $@"SELECT * FROM tblAccount WHERE ResetToken = @ResetToken AND ResetTokenExpires > {DateTime.UtcNow}";
+
+            using var connection = new SqlConnection(_connectionString);
+            connection.Open();
+            var result = await connection.QuerySingleOrDefaultAsync<Account>(sql, new { model.Token });
+
+            if (result == null) throw new Exception("Invalid token");
+
+            // Update password and remove reset token
+            result.Password = BC.HashPassword(model.Password);
+            result.PasswordResetYmd = DateTime.UtcNow;
+            result.ResetToken = null;
+            result.ResetTokenExpiredYmd = null;
+
+            var affectedRows = await connection.ExecuteAsync("UPDATE tblAccount SET Password = @Password, PasswordResetYmd = @PasswordResetYmd, ResetToken = null, ResetTokenExpiredYmd = null WHERE ID = @ID"
+                , new
+                {
+                    result.ResetToken,
+                    result.PasswordResetYmd,
+                    result.ResetTokenExpiredYmd,
+                    userId
+                });
+
+            return affectedRows;
         }
     }
 }

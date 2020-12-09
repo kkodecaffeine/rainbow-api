@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace RainbowApp.Core.Entities
 {
-    public class User
+    public class Account
     {
         public int UserId { get; set; }
         public string Name { get; set; }
