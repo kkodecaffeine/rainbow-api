@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+
+#nullable disable
 
 namespace RainbowApp.Application.Model
 {
-    public partial class TblUser
+    public partial class TblAccount
     {
-        public int UserId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string MailAddr { get; set; }
         public string Password { get; set; }

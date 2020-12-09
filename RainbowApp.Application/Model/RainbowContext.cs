@@ -1,13 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
 namespace RainbowApp.Application.Model
 {
-    public partial class RainbowContext : DbContext, IRainbowContext
+    public partial class RainbowContext : DbContext
     {
         public RainbowContext()
         {
@@ -28,10 +26,10 @@ namespace RainbowApp.Application.Model
             return await base.SaveChangesAsync();
         }
 
+        public virtual DbSet<TblAccount> TblAccounts { get; set; }
         public virtual DbSet<TblMember> TblMembers { get; set; }
         public virtual DbSet<TblNotification> TblNotifications { get; set; }
         public virtual DbSet<TblServiceProvider> TblServiceProviders { get; set; }
-        public virtual DbSet<TblUser> TblUsers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -43,6 +41,44 @@ namespace RainbowApp.Application.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<TblAccount>(entity =>
+            {
+                entity.HasKey(e => e.MailAddr)
+                    .HasName("PK__tblAccount__1788CC4CC34E8520");
+
+                entity.ToTable("tblAccount");
+
+                entity.Property(e => e.MailAddr).HasMaxLength(255);
+
+                entity.Property(e => e.ChagedYmd).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedYmd).HasColumnType("datetime");
+
+                entity.Property(e => e.Domain)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.PasswordResetYmd).HasColumnType("datetime");
+
+                entity.Property(e => e.ResetToken).HasMaxLength(255);
+
+                entity.Property(e => e.ResetTokenExpiredYmd).HasColumnType("datetime");
+
+                entity.Property(e => e.VerificationToken).HasMaxLength(255);
+
+                entity.Property(e => e.VerifiedYmd).HasColumnType("datetime");
+            });
+
             modelBuilder.Entity<TblMember>(entity =>
             {
                 entity.HasKey(e => e.UserId)
@@ -136,44 +172,6 @@ namespace RainbowApp.Application.Model
                 entity.Property(e => e.TrdStateNm)
                     .IsRequired()
                     .HasMaxLength(10);
-            });
-
-            modelBuilder.Entity<TblUser>(entity =>
-            {
-                entity.HasKey(e => e.MailAddr)
-                    .HasName("PK__tblUser__1788CC4CC34E8520");
-
-                entity.ToTable("tblUser");
-
-                entity.Property(e => e.MailAddr).HasMaxLength(255);
-
-                entity.Property(e => e.ChagedYmd).HasColumnType("datetime");
-
-                entity.Property(e => e.CreatedYmd).HasColumnType("datetime");
-
-                entity.Property(e => e.Domain)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.PasswordResetYmd).HasColumnType("datetime");
-
-                entity.Property(e => e.ResetToken).HasMaxLength(255);
-
-                entity.Property(e => e.ResetTokenExpiredYmd).HasColumnType("datetime");
-
-                entity.Property(e => e.UserId).ValueGeneratedOnAdd();
-
-                entity.Property(e => e.VerificationToken).HasMaxLength(255);
-
-                entity.Property(e => e.VerifiedYmd).HasColumnType("datetime");
             });
 
             OnModelCreatingPartial(modelBuilder);
