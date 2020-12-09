@@ -5,7 +5,7 @@ namespace RainbowApp.Application.Interfaces
     public interface IUnitOfWork
     {
         IRainbowContext Context { get; }
-        IUserRepository Users { get; }
+        IAccountRepository Users { get; }
         ITaskRepository Tasks { get; }
         INotiRepository Notis { get; }
     }

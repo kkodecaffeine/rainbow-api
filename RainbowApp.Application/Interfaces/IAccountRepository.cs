@@ -4,7 +4,7 @@ using RainbowApp.Core.Entities;
 
 namespace RainbowApp.Application.Interfaces
 {
-    public interface IUserRepository
+    public interface IAccountRepository
     {
         Task<AuthenticateResponse> Authenticate(string mailAddr, string password);
 

@@ -17,14 +17,14 @@ using System.Security.Cryptography;
 
 namespace RainbowApp.Infrastructure.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class AccountRepository : IAccountRepository
     {
         private readonly IConfiguration _configuration;
         private readonly string _connectionString;
         private readonly string _secret;
 
 
-        public UserRepository(IRainbowContext context, IConfiguration configuration)
+        public AccountRepository(IRainbowContext context, IConfiguration configuration)
         {
 
             _connectionString = context.GetDbConnection();
@@ -137,7 +137,7 @@ namespace RainbowApp.Infrastructure.Repositories
 
         public async Task ForgotPassword(ForgotPasswordRequest model, string origin)
         {
-            var sql = @"SELECT * FROM tblUser WHERE MailAddr = @MailAddr";
+            var sql = @"SELECT * FROM tblAccount WHERE MailAddr = @MailAddr";
 
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
@@ -150,7 +150,7 @@ namespace RainbowApp.Infrastructure.Repositories
             result.ResetToken = RandomTokenString();
             result.ResetTokenExpiredYmd = DateTime.UtcNow.AddDays(1);
 
-            connection.Execute("UPDATE tblUser SET ResetToken = @ResetToken, ResetTokenExpiredYmd = @ResetTokenExpiredYmd WHERE ID = @ID"
+            connection.Execute("UPDATE tblAccount SET ResetToken = @ResetToken, ResetTokenExpiredYmd = @ResetTokenExpiredYmd WHERE ID = @ID"
                 , new
                 {
                     result.ResetToken,

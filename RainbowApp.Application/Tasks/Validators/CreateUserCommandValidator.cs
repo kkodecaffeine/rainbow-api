@@ -4,9 +4,9 @@ using RainbowApp.Application.Tasks.Commands;
 
 namespace RainbowApp.Application.Tasks.Validators
 {
-    public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
+    public class CreateAccountCommandValidator : AbstractValidator<CreateAccountCommand>
     {
-        public CreateUserCommandValidator(IUserRepository userRepository)
+        public CreateAccountCommandValidator(IAccountRepository userRepository)
         {
             RuleFor(t => t.RegisterRequest.MailAddr).NotEmpty();
             RuleFor(x => x.RegisterRequest.MailAddr).Must(x => userRepository.GetUser(x) == null).WithMessage("A user with this mailAddr already exists.");

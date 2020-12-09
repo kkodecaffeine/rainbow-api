@@ -21,7 +21,7 @@ namespace RainbowApp.Core.Helpers
             _appSettings = appSettings.Value;
         }
 
-        public async Task Invoke(HttpContext context, IUserRepository userRepository)
+        public async Task Invoke(HttpContext context, IAccountRepository userRepository)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(' ').Last();
 
@@ -31,7 +31,7 @@ namespace RainbowApp.Core.Helpers
             await _next(context);
         }
 
-        private void AttachUserToContext(HttpContext context, IUserRepository userRepository, string token)
+        private void AttachUserToContext(HttpContext context, IAccountRepository userRepository, string token)
         {
             try
             {

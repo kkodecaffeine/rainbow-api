@@ -6,7 +6,7 @@ namespace RainbowApp.Infrastructure.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         public UnitOfWork(IRainbowContext context
-            , IUserRepository userRepository
+            , IAccountRepository userRepository
             , ITaskRepository taskRepository
             , INotiRepository notiRepository)
         {
@@ -17,7 +17,7 @@ namespace RainbowApp.Infrastructure.Repositories
         }
 
         public IRainbowContext Context { get; }
-        public IUserRepository Users { get; }
+        public IAccountRepository Users { get; }
         public ITaskRepository Tasks { get; }
         public INotiRepository Notis { get; }
     }

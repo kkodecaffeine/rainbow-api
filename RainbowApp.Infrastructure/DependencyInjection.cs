@@ -13,7 +13,7 @@ namespace RainbowApp.Infrastructure
             services.AddMvc(options => options.Filters.Add(typeof(CustomExceptionFilterAttribute)));
 
             services.AddTransient<IRainbowContext, RainbowContext>();
-            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<ITaskRepository, TaskRepository>();
             services.AddTransient<INotiRepository, NotiRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();

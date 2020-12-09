@@ -25,7 +25,7 @@ namespace RainbowApp.Api.Controllers
         [CustomExceptionFilter]
         public async Task<ActionResult<int>> Create(RegisterRequest model)
         {
-            return await Mediator.Send(new CreateUserCommand { RegisterRequest = model, Origin = Request.Headers["origin"] });
+            return await Mediator.Send(new CreateAccountCommand { RegisterRequest = model, Origin = Request.Headers["origin"] });
         }
 
         [HttpPost("forgot-password")]
