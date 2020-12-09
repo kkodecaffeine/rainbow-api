@@ -27,5 +27,11 @@ namespace RainbowApp.Api.Controllers
         {
             return await Mediator.Send(new CreateUserCommand { RegisterRequest = model, Origin = Request.Headers["origin"] });
         }
+
+        [HttpPost("forgot-password")]
+        public async Task<ActionResult<int>> Create(ForgotPasswordRequest model)
+        {
+            return await Mediator.Send(new CreateForgotPasswordCommand { ForgotPasswordRequest = model, Origin = Request.Headers["origin"] });
+        }
     }
 }

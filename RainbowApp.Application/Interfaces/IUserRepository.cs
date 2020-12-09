@@ -14,5 +14,7 @@ namespace RainbowApp.Application.Interfaces
         Task<User> GetUser(int userId);
         Task<User> GetUser(string mailAddr);
         Task<User> GetUser(string mailAddr, string password);
+
+        Task ForgotPassword(ForgotPasswordRequest model, string origin);
     }
 }
