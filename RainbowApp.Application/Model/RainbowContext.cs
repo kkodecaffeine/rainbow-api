@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RainbowApp.Application.Model
 {
-    public partial class RainbowContext : DbContext
+    public partial class RainbowContext : DbContext, IRainbowContext
     {
         public RainbowContext()
         {

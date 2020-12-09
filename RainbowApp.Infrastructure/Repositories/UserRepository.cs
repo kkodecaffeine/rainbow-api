@@ -59,7 +59,7 @@ namespace RainbowApp.Infrastructure.Repositories
 
             model.Password = BC.HashPassword(model.Password);
 
-            var sql = $"INSERT INTO tblUser (Name, MailAddr, Password, VerificationToken, Domain, CreatedYmd) Values ('{name}', '{model.MailAddr}', '{model.Password}', '{verificationToken}', '{domain}', '{DateTime.UtcNow:yyyy-MM-dd hh:mm:ss}');";
+            var sql = $"INSERT INTO tblAccount (Name, MailAddr, Password, VerificationToken, Domain, CreatedYmd) Values ('{name}', '{model.MailAddr}', '{model.Password}', '{verificationToken}', '{domain}', '{DateTime.UtcNow:yyyy-MM-dd hh:mm:ss}');";
 
             var affectedRows = await connection.ExecuteAsync(sql);
             return affectedRows;
