@@ -30,7 +30,7 @@ namespace RainbowApp.Api
 
             services.AddSwaggerGen(config =>
             {
-                config.SwaggerDoc("v1", new OpenApiInfo() { Title = "Rainbow bridge", Version = "v1" });
+                config.SwaggerDoc("v1", new OpenApiInfo() { Title = "Rainbow", Version = "v1" });
             });
         }
 
