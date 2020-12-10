@@ -66,7 +66,7 @@ namespace RainbowApp.Api
 
             app.UseSwaggerUI(config =>
             {
-                config.SwaggerEndpoint("/swagger/v1/swagger.json", "Rainbow bridge v1");
+                config.SwaggerEndpoint("/swagger/v1/swagger.json", "Rainbow v1");
                 config.DefaultModelsExpandDepth(-1);
             });
         }
