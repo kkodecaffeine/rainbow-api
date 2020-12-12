@@ -9,4 +9,14 @@ namespace RainbowApp.Application.Model
         string GetDbConnection();
         Task<int> SaveChangesAsync();
     }
+
+        // public string GetDbConnection()
+        // {
+        //     return base.Database.GetDbConnection().ConnectionString;
+        // }
+
+        // public async Task<int> SaveChangesAsync()
+        // {
+        //     return await base.SaveChangesAsync();
+        // }
 }
