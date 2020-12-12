@@ -30,7 +30,7 @@ namespace RainbowApp.Api
 
             services.AddSwaggerGen(config =>
             {
-                config.SwaggerDoc("v1", new OpenApiInfo() { Title = "Rainbow bridge", Version = "v1" });
+                config.SwaggerDoc("v1", new OpenApiInfo() { Title = "Rainbow", Version = "v1" });
             });
         }
 
@@ -64,7 +64,11 @@ namespace RainbowApp.Api
 
             app.UseSwagger();
 
-            app.UseSwaggerUI(config => config.SwaggerEndpoint("/swagger/v1/swagger.json", "Rainbow bridge v1"));
+            app.UseSwaggerUI(config =>
+            {
+                config.SwaggerEndpoint("/swagger/v1/swagger.json", "Rainbow v1");
+                config.DefaultModelsExpandDepth(-1);
+            });
         }
     }
 }
