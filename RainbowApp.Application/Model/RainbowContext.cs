@@ -1,11 +1,10 @@
-﻿using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
 namespace RainbowApp.Application.Model
 {
-    public partial class RainbowContext : DbContext, IRainbowContext
+    public partial class RainbowContext : DbContext
     {
         public RainbowContext()
         {
@@ -14,16 +13,6 @@ namespace RainbowApp.Application.Model
         public RainbowContext(DbContextOptions<RainbowContext> options)
             : base(options)
         {
-        }
-
-        public string GetDbConnection()
-        {
-            return base.Database.GetDbConnection().ConnectionString;
-        }
-
-        public async Task<int> SaveChangesAsync()
-        {
-            return await base.SaveChangesAsync();
         }
 
         public virtual DbSet<TblAccount> TblAccounts { get; set; }
@@ -41,14 +30,16 @@ namespace RainbowApp.Application.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
             modelBuilder.Entity<TblAccount>(entity =>
             {
-                entity.HasKey(e => e.MailAddr)
+                entity.HasKey(e => e.Email)
                     .HasName("PK__tblAccount__1788CC4CC34E8520");
 
                 entity.ToTable("tblAccount");
 
-                entity.Property(e => e.MailAddr).HasMaxLength(255);
+                entity.Property(e => e.Email).HasMaxLength(255);
 
                 entity.Property(e => e.ChagedYmd).HasColumnType("datetime");
 
