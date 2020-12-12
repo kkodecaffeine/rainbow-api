@@ -11,7 +11,7 @@ namespace RainbowApp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ApiController
+    public class AccountController : ApiController
     {
         [HttpPost("authenticate")]
         public async Task<ActionResult<TblAccount>> Authenticate(AuthenticateRequest model)
