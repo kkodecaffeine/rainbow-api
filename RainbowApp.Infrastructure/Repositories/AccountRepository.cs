@@ -91,17 +91,17 @@ namespace RainbowApp.Infrastructure.Repositories
 
         public async Task<Account> GetUser(string email)
         {
-            var sql = @"SELECT * FROM tblMember WHERE Email = @Email";
+            var sql = @"SELECT * FROM tblAccount WHERE Email = @Email";
 
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
-            var result = await connection.QueryAsync<Account>(sql, new { Email = email });
-            return result.FirstOrDefault();
+            var result = await connection.QuerySingleOrDefaultAsync<Account>(sql, new { Email = email });
+            return result;
         }
 
         public async Task<Account> GetUser(string email, string password)
         {
-            var sql = @"SELECT * FROM tblMember WHERE Email = @Email AND Password = @Password";
+            var sql = @"SELECT * FROM tblAccount WHERE Email = @Email AND Password = @Password";
 
             using var connection = new SqlConnection(_connectionString);
             connection.Open();

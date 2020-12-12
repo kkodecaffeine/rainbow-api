@@ -9,7 +9,7 @@ namespace RainbowApp.Application.Tasks.Validators
         public CreateAccountCommandValidator(IAccountRepository userRepository)
         {
             RuleFor(t => t.RegisterRequest.Email).NotEmpty();
-            RuleFor(x => x.RegisterRequest.Email).Must(x => userRepository.GetUser(x) == null).WithMessage("A user with this email already exists.");
+            RuleFor(x => x.RegisterRequest.Email).Must(x => userRepository.GetUser(x) != null).WithMessage("A user with this email already exists.");
             RuleFor(t => t.RegisterRequest.Password).NotEmpty();
             RuleFor(t => t.RegisterRequest.ConfirmPassword).NotEmpty();
         }
