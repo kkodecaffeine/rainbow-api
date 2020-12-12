@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 #nullable disable
 
 namespace RainbowApp.Application.Model
 {
-    public partial class RainbowContext : DbContext
+    public partial class RainbowContext : DbContext, IRainbowContext
     {
         public RainbowContext()
         {
@@ -13,6 +14,16 @@ namespace RainbowApp.Application.Model
         public RainbowContext(DbContextOptions<RainbowContext> options)
             : base(options)
         {
+        }
+
+        public string GetDbConnection()
+        {
+            return base.Database.GetDbConnection().ConnectionString;
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await base.SaveChangesAsync();
         }
 
         public virtual DbSet<TblAccount> TblAccounts { get; set; }
