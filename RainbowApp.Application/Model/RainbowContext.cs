@@ -43,12 +43,12 @@ namespace RainbowApp.Application.Model
         {
             modelBuilder.Entity<TblAccount>(entity =>
             {
-                entity.HasKey(e => e.MailAddr)
+                entity.HasKey(e => e.Email)
                     .HasName("PK__tblAccount__1788CC4CC34E8520");
 
                 entity.ToTable("tblAccount");
 
-                entity.Property(e => e.MailAddr).HasMaxLength(255);
+                entity.Property(e => e.Email).HasMaxLength(255);
 
                 entity.Property(e => e.ChagedYmd).HasColumnType("datetime");
 
@@ -94,7 +94,7 @@ namespace RainbowApp.Application.Model
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.MailAddr)
+                entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(255);
 

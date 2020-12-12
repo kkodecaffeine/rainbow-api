@@ -32,9 +32,9 @@ namespace RainbowApp.Infrastructure.Repositories
             _secret = _configuration.GetSection("AppSettings:Secret").Value;
         }
 
-        public async Task<AuthenticateResponse> Authenticate(string mailAddr, string password)
+        public async Task<AuthenticateResponse> Authenticate(string email, string password)
         {
-            var user = await GetUser(mailAddr, password);
+            var user = await GetUser(email, password);
 
             // return null if user not found
             if (user == null)
@@ -53,13 +53,13 @@ namespace RainbowApp.Infrastructure.Repositories
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
 
-            var name = model.MailAddr.Split('@').FirstOrDefault();
+            var name = model.Email.Split('@').FirstOrDefault();
             var verificationToken = RandomTokenString();
-            var domain = model.MailAddr.Split('@').LastOrDefault();
+            var domain = model.Email.Split('@').LastOrDefault();
 
             model.Password = BC.HashPassword(model.Password);
 
-            var sql = $"INSERT INTO tblAccount (Name, MailAddr, Password, VerificationToken, Domain, CreatedYmd) Values ('{name}', '{model.MailAddr}', '{model.Password}', '{verificationToken}', '{domain}', '{DateTime.UtcNow:yyyy-MM-dd hh:mm:ss}');";
+            var sql = $"INSERT INTO tblAccount (Name, Email, Password, VerificationToken, Domain, CreatedYmd) Values ('{name}', '{model.Email}', '{model.Password}', '{verificationToken}', '{domain}', '{DateTime.UtcNow:yyyy-MM-dd hh:mm:ss}');";
 
             var affectedRows = await connection.ExecuteAsync(sql);
             return affectedRows;
@@ -89,23 +89,23 @@ namespace RainbowApp.Infrastructure.Repositories
             return result.FirstOrDefault();
         }
 
-        public async Task<Account> GetUser(string mailAddr)
+        public async Task<Account> GetUser(string email)
         {
-            var sql = @"SELECT * FROM tblMember WHERE MailAddr = @MailAddr";
+            var sql = @"SELECT * FROM tblMember WHERE Email = @Email";
 
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
-            var result = await connection.QueryAsync<Account>(sql, new { MailAddr = mailAddr });
+            var result = await connection.QueryAsync<Account>(sql, new { Email = email });
             return result.FirstOrDefault();
         }
 
-        public async Task<Account> GetUser(string mailAddr, string password)
+        public async Task<Account> GetUser(string email, string password)
         {
-            var sql = @"SELECT * FROM tblMember WHERE MailAddr = @MailAddr AND Password = @Password";
+            var sql = @"SELECT * FROM tblMember WHERE Email = @Email AND Password = @Password";
 
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
-            var result = await connection.QueryAsync<Account>(sql, new { MailAddr = mailAddr, Password = password });
+            var result = await connection.QueryAsync<Account>(sql, new { Email = email, Password = password });
             return result.FirstOrDefault();
         }
 
@@ -137,11 +137,11 @@ namespace RainbowApp.Infrastructure.Repositories
 
         public async Task ForgotPassword(ForgotPasswordRequest model, string origin)
         {
-            var sql = @"SELECT * FROM tblAccount WHERE MailAddr = @MailAddr";
+            var sql = @"SELECT * FROM tblAccount WHERE Email = @Email";
 
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
-            var result = await connection.QuerySingleOrDefaultAsync<Account>(sql, new { model.MailAddr });
+            var result = await connection.QuerySingleOrDefaultAsync<Account>(sql, new { model.Email });
 
             // always return ok response to prevent email enumeration
             if (result == null) return;

@@ -7,7 +7,7 @@ namespace RainbowApp.Core.Entities
     {
         [Required]
         [EmailAddress]
-        public string MailAddr { get; set; }
+        public string Email { get; set; }
 
         [Required]
         [MinLength(6)]

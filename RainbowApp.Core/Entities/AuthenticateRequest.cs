@@ -5,7 +5,7 @@ namespace RainbowApp.Core.Entities
     public class AuthenticateRequest
     {
         [Required]
-        public string MailAddr { get; set; }
+        public string Email { get; set; }
 
         [Required]
         public string Password { get; set; }
