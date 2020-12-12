@@ -96,7 +96,7 @@ namespace RainbowApp.Application.Model
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.MailAddr)
+                entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(255);
 

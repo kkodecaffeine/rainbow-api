@@ -9,7 +9,7 @@ namespace RainbowApp.Application.Model
     {
         public int UserId { get; set; }
         public string Name { get; set; }
-        public string MailAddr { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
         public string Domain { get; set; }
         public DateTime CreatedYmd { get; set; }

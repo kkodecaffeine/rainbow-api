@@ -7,7 +7,7 @@ namespace RainbowApp.Core.Entities
     {
         public int UserId { get; set; }
         public string Name { get; set; }
-        public string MailAddr { get; set; }
+        public string Email { get; set; }
 
         [JsonIgnore]
         public string Password { get; set; }
@@ -23,7 +23,7 @@ namespace RainbowApp.Core.Entities
         public DateTime? ChagedYmd { get; set; }
         //public int UserId { get; set; }
         //public string Name { get; set; }
-        //public string MailAddr { get; set; }
+        //public string Email { get; set; }
         //[JsonIgnore]
         //public string Password { get; set; }
         //public string Domain { get; set; }

@@ -4,7 +4,7 @@
     {
         public int UserId { get; set; }
         public string Name { get; set; }
-        public string MailAddr { get; set; }
+        public string Email { get; set; }
         public string Token { get; set; }
 
 
@@ -12,7 +12,7 @@
         {
             UserId = user.UserId;
             Name = user.Name;
-            MailAddr = user.MailAddr;
+            Email = user.Email;
             Token = token;
         }
     }

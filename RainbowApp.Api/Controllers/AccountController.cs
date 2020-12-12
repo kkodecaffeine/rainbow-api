@@ -14,9 +14,9 @@ namespace RainbowApp.Api.Controllers
         [HttpPost("authenticate")]
         public async Task<ActionResult<TblMember>> Authenticate(AuthenticateRequest model)
         {
-            var response = await Mediator.Send(new CreateAuthCommand { MailAddr = model.MailAddr, Password = model.Password });
+            var response = await Mediator.Send(new CreateAuthCommand { Email = model.Email, Password = model.Password });
             if (response == null)
-                return BadRequest(new { message = "MailAddr or password is incorrect" });
+                return BadRequest(new { message = "Email or password is incorrect" });
 
             return Ok(response);
         }
