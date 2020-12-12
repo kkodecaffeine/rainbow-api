@@ -23,7 +23,7 @@ namespace RainbowApp.Application.Tasks.Handlers
 
         public async Task<List<TblAccount>> Handle(GetAccountsQuery request, CancellationToken cancellationToken)
         {
-            var result = await _unitOfWork.Users.GetUser(request.Email, request.Password);
+            var result = await _unitOfWork.Accounts.GetUser(request.Email, request.Password);
             return _mapper.Map<List<TblAccount>>(new[] { result });
         }
     }

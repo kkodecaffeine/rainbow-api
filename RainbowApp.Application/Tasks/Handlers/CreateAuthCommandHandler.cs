@@ -18,7 +18,7 @@ namespace RainbowApp.Application.Tasks.Handlers
 
         public async Task<AuthenticateResponse> Handle(CreateAuthCommand request, CancellationToken cancellationToken)
         {
-            var result = await _unitOfWork.Users.Authenticate(request.Email, request.Password);
+            var result = await _unitOfWork.Accounts.Authenticate(request.Email, request.Password);
             return result;
         }
     }

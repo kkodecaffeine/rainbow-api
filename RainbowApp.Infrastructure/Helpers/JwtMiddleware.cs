@@ -21,17 +21,17 @@ namespace RainbowApp.Core.Helpers
             _appSettings = appSettings.Value;
         }
 
-        public async Task Invoke(HttpContext context, IAccountRepository userRepository)
+        public async Task Invoke(HttpContext context, IAccountRepository accountRepository)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(' ').Last();
 
             if (token != null)
-                AttachUserToContext(context, userRepository, token);
+                AttachUserToContext(context, accountRepository, token);
 
             await _next(context);
         }
 
-        private void AttachUserToContext(HttpContext context, IAccountRepository userRepository, string token)
+        private void AttachUserToContext(HttpContext context, IAccountRepository accountRepository, string token)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace RainbowApp.Core.Helpers
                 var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "userId").Value);
 
                 // attach user to context on successful jwt validation
-                context.Items["User"] = userRepository.GetUser(userId);
+                context.Items["User"] = accountRepository.GetUser(userId);
             }
             catch
             {

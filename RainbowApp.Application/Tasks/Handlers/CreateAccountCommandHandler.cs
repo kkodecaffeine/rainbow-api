@@ -21,13 +21,13 @@ namespace RainbowApp.Application.Tasks.Handlers
 
         public async Task<int> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
-            var result = await _unitOfWork.Users.AddUser(_mapper.Map<RegisterRequest>(request.RegisterRequest), request.Origin);
+            var result = await _unitOfWork.Accounts.AddUser(_mapper.Map<RegisterRequest>(request.RegisterRequest), request.Origin);
             return result;
         }
 
         public async Task<int> Handle(CreateResetPasswordCommand request, CancellationToken cancellationToken)
         {
-            var result = await _unitOfWork.Users.ResetPassword(_mapper.Map<ResetPasswordRequest>(request.ResetPasswordRequest), request.UserId);
+            var result = await _unitOfWork.Accounts.ResetPassword(_mapper.Map<ResetPasswordRequest>(request.ResetPasswordRequest), request.UserId);
             return result;
         }
     }
