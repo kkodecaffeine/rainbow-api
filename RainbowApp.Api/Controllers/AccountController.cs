@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RainbowApp.Application.Model;
@@ -29,12 +28,12 @@ namespace RainbowApp.Api.Controllers
         public async Task<ActionResult<TblAccount>> GetAccount(SignInRequest model)
         {
             var response = await Mediator.Send(new GetAccountsQuery { Email = model.Email, Password = model.Password });
-            if (response == null)
+            if (response[0] == null)
             {
                 return BadRequest(new { message = "Email or password is incorrect" });
             }
-            
-            return Ok(response);
+
+            return Ok(response[0]);
         }
 
         [HttpPost("add")]

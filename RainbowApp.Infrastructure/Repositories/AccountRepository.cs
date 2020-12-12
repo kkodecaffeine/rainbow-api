@@ -14,6 +14,7 @@ using System.Security.Claims;
 using System;
 using RainbowApp.Application.Model;
 using System.Security.Cryptography;
+using RainbowApp.Core.Helpers;
 
 namespace RainbowApp.Infrastructure.Repositories
 {
@@ -56,8 +57,9 @@ namespace RainbowApp.Infrastructure.Repositories
             var name = model.Email.Split('@').FirstOrDefault();
             var verificationToken = RandomTokenString();
             var domain = model.Email.Split('@').LastOrDefault();
-
-            model.Password = BC.HashPassword(model.Password);
+            
+            model.Password = model.Password.EncryptToSHA256();
+            //model.Password = BC.HashPassword(model.Password);
 
             var sql = $"INSERT INTO tblAccount (Name, Email, Password, VerificationToken, Domain, CreatedYmd) Values ('{name}', '{model.Email}', '{model.Password}', '{verificationToken}', '{domain}', '{DateTime.UtcNow:yyyy-MM-dd hh:mm:ss}');";
 
@@ -101,12 +103,33 @@ namespace RainbowApp.Infrastructure.Repositories
 
         public async Task<Account> GetUser(string email, string password)
         {
-            var sql = @"SELECT * FROM tblAccount WHERE Email = @Email AND Password = @Password";
+            var sql = @"SELECT * FROM tblAccount WHERE Email = @Email";
 
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
-            var result = await connection.QueryAsync<Account>(sql, new { Email = email, Password = password });
-            return result.FirstOrDefault();
+            
+            var result = await connection.QuerySingleOrDefaultAsync<Account>(sql, new { Email = email });
+            if (result == null || String.IsNullOrWhiteSpace(result.Password))
+            {
+                return null;
+            }
+
+            if (result.Password.StartsWith("$2")) // External SignIn
+            {
+                if (BC.EnhancedVerify(password, result.Password, BCrypt.Net.HashType.SHA256))
+                {
+                    return result;
+                }
+            }
+            else
+            {
+                if (password.EncryptToSHA256() == result.Password)
+                {
+                    return result;
+                }
+            }
+
+            return null;
         }
 
         #region Generate token
