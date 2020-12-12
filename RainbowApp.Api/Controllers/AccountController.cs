@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RainbowApp.Application.Model;
 using RainbowApp.Application.Tasks.Commands;
+using RainbowApp.Application.Tasks.Queries;
 using RainbowApp.Core.Entities;
 using RainbowApp.Infrastructure.Filters;
 
@@ -12,12 +14,26 @@ namespace RainbowApp.Api.Controllers
     public class UserController : ApiController
     {
         [HttpPost("authenticate")]
-        public async Task<ActionResult<TblMember>> Authenticate(AuthenticateRequest model)
+        public async Task<ActionResult<TblAccount>> Authenticate(AuthenticateRequest model)
         {
             var response = await Mediator.Send(new CreateAuthCommand { Email = model.Email, Password = model.Password });
             if (response == null)
+            {
                 return BadRequest(new { message = "Email or password is incorrect" });
+            }
 
+            return Ok(response);
+        }
+        
+        [HttpGet]
+        public async Task<ActionResult<TblAccount>> GetAccount(SignInRequest model)
+        {
+            var response = await Mediator.Send(new GetAccountsQuery { Email = model.Email, Password = model.Password });
+            if (response == null)
+            {
+                return BadRequest(new { message = "Email or password is incorrect" });
+            }
+            
             return Ok(response);
         }
 

@@ -70,7 +70,7 @@ namespace RainbowApp.Infrastructure.Repositories
 
         public async Task<IEnumerable<Account>> GetAll()
         {
-            var sql = @"SELECT * FROM tblMember";
+            var sql = @"SELECT * FROM tblAccount";
 
 
             using var connection = new SqlConnection(_connectionString);
@@ -81,11 +81,11 @@ namespace RainbowApp.Infrastructure.Repositories
 
         public async Task<Account> GetUser(int userId)
         {
-            var sql = @"SELECT * FROM tblMember WHERE UserId = @UserId";
+            var sql = @"SELECT * FROM tblAccount WHERE Id = @Id";
 
             using var connection = new SqlConnection(_connectionString);
             connection.Open();
-            var result = await connection.QueryAsync<Account>(sql, new { UserId = userId });
+            var result = await connection.QueryAsync<Account>(sql, new { Id = userId });
             return result.FirstOrDefault();
         }
 
