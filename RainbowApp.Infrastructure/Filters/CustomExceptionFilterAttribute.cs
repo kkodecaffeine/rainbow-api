@@ -32,6 +32,7 @@ namespace RainbowApp.Infrastructure.Filters
             context.HttpContext.Response.StatusCode = (int)code;
             context.Result = new JsonResult(new
             {
+                StatusCode = (int)code,
                 error = new[] { context.Exception.Message }
             });
         }
