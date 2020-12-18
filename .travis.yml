@@ -23,7 +23,7 @@ script:
 
 before_script:
   - sudo pip install awscli
-  - sudo pip3 install --upgrade pip
+  # - sudo pip3 install --upgrade pip
   - export PATH=$PATH:$HOME/.local/bin
   - AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY 
 
