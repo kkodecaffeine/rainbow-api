@@ -15,17 +15,22 @@ services:
 mono: none
 dotnet: 3.1
 
+before_script:
+  - sudo pip install awscli
+  # - sudo pip3 install --upgrade pip
+  - export PATH=$PATH:$HOME/.local/bin
+  # - AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+  - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+  - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+
 install:
   - dotnet restore ".\RainbowApp.sln"
 
 script:
   - dotnet build ".\RainbowApp.sln" -c Release
 
-before_script:
-  - sudo pip install awscli
-  # - sudo pip3 install --upgrade pip
-  - export PATH=$PATH:$HOME/.local/bin
-  - AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY 
+
+
 
 after_success:
   # - docker --version
@@ -34,7 +39,6 @@ after_success:
   # - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
   # - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
   # - aws configure list
-  - aws configure
   - eval $(aws ecr get-login --no-include-email --region ap-northeast-2)
   # - docker build -t rainbow-api --build-arg ASPNETCORE_ENVIRONMENT=Development --build-arg AWS_DEFAULT_REGION=AP-NORTHEAST-2 --build-arg AWS_ACCESS_KEY_ID=AKIAJG4PXAIR5DQTNS2Q --build-arg AWS_SECRET_ACCESS_KEY=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 .
   # - docker tag rainbowappapi:latest 860436917626.dkr.ecr.ap-northeast-2.amazonaws.com/rainbow-api:development
