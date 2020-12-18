@@ -25,13 +25,15 @@ after_success:
   - docker --version
   - pip install --user awscli # install aws cli w/o sudo
   - export PATH=$PATH:$HOME/.local/bin # put aws in the path
+  - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+  - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
   - eval $(aws ecr get-login --no-include-email --region ap-northeast-2)
-  - docker build -t rainbow-api --build-arg ASPNETCORE_ENVIRONMENT=Development --build-arg AWS_DEFAULT_REGION=AP-NORTHEAST-2 --build-arg AWS_ACCESS_KEY_ID=AKIAJG4PXAIR5DQTNS2Q --build-arg AWS_SECRET_ACCESS_KEY=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 .
-  - docker tag rainbowappapi:latest 860436917626.dkr.ecr.ap-northeast-2.amazonaws.com/rainbow-api:development
-  - docker images
-  - docker push 860436917626.dkr.ecr.ap-northeast-2.amazonaws.com/rainbow-api:development
-  # - docker build -t rainbow-api --build-arg ASPNETCORE_ENVIRONMENT=$environment --build-arg AWS_DEFAULT_REGION=AP-NORTHEAST-2 --build-arg AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID --build-arg AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY .
-  # #- docker tag $APP_NAME:$TRAVIS_BUILD_ID $AWS_ECR_ACCOUNT.dkr.ecr.us-east-1.amazonaws.com/$APP_NAME:$TRAVIS_BUILD_ID
-  # - docker tag rainbowappapi:latest $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
-  # #- docker push $AWS_ECR_ACCOUNT.dkr.ecr.us-east-1.amazonaws.com/$APP_NAME:$TRAVIS_BUILD_ID
-  # - docker push $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
+  # - docker build -t rainbow-api --build-arg ASPNETCORE_ENVIRONMENT=Development --build-arg AWS_DEFAULT_REGION=AP-NORTHEAST-2 --build-arg AWS_ACCESS_KEY_ID=AKIAJG4PXAIR5DQTNS2Q --build-arg AWS_SECRET_ACCESS_KEY=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 .
+  # - docker tag rainbowappapi:latest 860436917626.dkr.ecr.ap-northeast-2.amazonaws.com/rainbow-api:development
+  # - docker images
+  # - docker push 860436917626.dkr.ecr.ap-northeast-2.amazonaws.com/rainbow-api:development
+  - docker build -t rainbow-api --build-arg ASPNETCORE_ENVIRONMENT=$environment --build-arg AWS_DEFAULT_REGION=AP-NORTHEAST-2 --build-arg AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID --build-arg AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY .
+  #- docker tag $APP_NAME:$TRAVIS_BUILD_ID $AWS_ECR_ACCOUNT.dkr.ecr.us-east-1.amazonaws.com/$APP_NAME:$TRAVIS_BUILD_ID
+  - docker tag rainbowappapi:latest $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
+  #- docker push $AWS_ECR_ACCOUNT.dkr.ecr.us-east-1.amazonaws.com/$APP_NAME:$TRAVIS_BUILD_ID
+  - docker push $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
