@@ -22,6 +22,8 @@ namespace RainbowApp.Api.Controllers
             }
 
             return Ok(response);
+
+            //
         }
         
         [HttpGet]
