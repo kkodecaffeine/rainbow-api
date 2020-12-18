@@ -15,17 +15,11 @@ services:
 mono: none
 dotnet: 3.1
 
-# install:
-#   - dotnet restore
-
-# script:
-#   - dotnet build ./RainbowApp.Api/RainbowApp.Api.csproj --configuration Release
-
 install:
-  - echo "install nothing!" # put your normal pre-testing installs here
+  - dotnet restore ".\RainbowApp.sln"
 
 script:
-  - echo "no tests!" # put your normal testing scripts here
+  - dotnet build ".\RainbowApp.sln" -c Release
 
 after_success:
   - docker --version
