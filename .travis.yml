@@ -1,5 +1,7 @@
 language: csharp
 
+os: windows
+
 env:
   - environment=Development
   - APP_NAME=rainbow-api
