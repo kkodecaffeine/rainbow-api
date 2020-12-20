@@ -11,7 +11,7 @@ env:
 mono: none
 # dotnet: 3.1
 
-# os: windows
+os: windows
 
 before_script:
   - sudo pip install awscli
