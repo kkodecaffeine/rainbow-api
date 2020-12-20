@@ -13,9 +13,14 @@ mono: none
 
 os: windows
 
+before_install:
+  - pyenv global 3.7.1
+  - pip install -U pip
+  - pip install awscli
+
 before_script:
-  - pip3 install awscli --upgrade --user
-  - export PATH=$PATH:$HOME/.local/bin
+  # - pip3 install awscli --upgrade --user
+  # - export PATH=$PATH:$HOME/.local/bin
   - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
   - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
   - aws configure set default.region ap-northeast-2
