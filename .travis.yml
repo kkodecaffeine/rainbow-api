@@ -14,9 +14,8 @@ mono: none
 os: windows
 
 before_install:
-  # - pyenv global 3.7.1
-  - pip install -U pip
-  - pip install awscli
+- sudo apt-get update
+- sudo apt-get install python3
 
 before_script:
   # - pip3 install awscli --upgrade --user
