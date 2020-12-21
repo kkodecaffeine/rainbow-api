@@ -11,20 +11,20 @@ env:
 mono: none
 # dotnet: 3.1
 
-os: windows
-language: sh
-python: "3.8"
-before_install:
-  - choco install python3
-  - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
-  - python -m pip install
+# os: windows
+# language: sh
+# python: "3.8"
+# before_install:
+#   - choco install python3
+#   - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
+#   - python -m pip install
 
 # os: windows
 
-# before_install:
-# - pip install
-# - sudo apt-get update
-# - sudo apt-get install python3
+before_install:
+- pip install
+- sudo apt-get update
+- sudo apt-get install python3
 
 before_script:
   # - pip3 install awscli --upgrade --user
