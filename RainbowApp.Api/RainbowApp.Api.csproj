@@ -5,7 +5,7 @@
     <AssemblyName>RainbowApp.Api</AssemblyName>
     <RootNamespace>RainbowApp.Api</RootNamespace>
     <UserSecretsId>ab2e8fef-e235-4386-9f7c-d5cd1430697f</UserSecretsId>
-    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
