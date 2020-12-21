@@ -1,97 +1,27 @@
 sudo: required #is required to use docker service in travis
-# language: python
-# language: generic
+language: python
 
 env:
   - environment=Development APP_NAME=rainbow-api AWS_ECR_ACCOUNT=860436917626 AWS_ACCESS_KEY_ID=AKIAJG4PXAIR5DQTNS2Q AWS_SECRET_ACCESS_KEY=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
 
-# services:
-#   - docker
-
-# mono: none
-# dotnet: 3.1
-
-# os: windows
-# language: sh
-# python: "3.8"
-# before_install:
-#   - choco install python3
-#   - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
-#   - python -m pip install
-
-# os: windows
-
-# before_install:
-#   - export PATH=$PATH:$HOME/.local/bin
-#   - sudo pip install awscli --upgrade --user
-# - pip install
-# - sudo apt-get update
-# - sudo apt-get install python3
-language: python            # this works for Linux but is an error on macOS or Windows
 jobs:
   include:
     - name: "Python 3.8.0 on Xenial Linux"
-      python: 3.8           # this works for Linux but is ignored on macOS or Windows
+      python: 3.8
 install:
-  - pip3 install --upgrade pip  # all three OSes agree about 'pip3'
+  - pip3 install --upgrade pip
   - sudo apt-get install awscli
 
 before_script:
-  # - sudo pip install awscli --upgrade --user
-  # - export PATH=$PATH:$HOME/.local/bin
   - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
   - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
   - aws configure set default.region ap-northeast-2
-  # - docker build -t rainbow-api .
-  # - docker build -t rainbow-api --build-arg ASPNETCORE_ENVIRONMENT=Development --build-arg AWS_DEFAULT_REGION=AP-NORTHEAST-2 --build-arg AWS_ACCESS_KEY_ID=AKIAJG4PXAIR5DQTNS2Q --build-arg AWS_SECRET_ACCESS_KEY=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 .
 
-# install:
-#   - dotnet restore ".\RainbowApp.sln"
-
-# script:
-#   - dotnet build ".\RainbowApp.sln" -c Release
 script: echo "Deploying to AWS ECR releases ..."
 
 after_success:
   - eval $(aws ecr get-login --no-include-email --region ap-northeast-2)
   - docker build -t rainbow-api .
-  # - docker build -t rainbow-api --build-arg ASPNETCORE_ENVIRONMENT=Development --build-arg AWS_DEFAULT_REGION=AP-NORTHEAST-2 --build-arg AWS_ACCESS_KEY_ID=AKIAJG4PXAIR5DQTNS2Q --build-arg AWS_SECRET_ACCESS_KEY=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 .
-  # - docker build -t rainbow-api --build-arg ASPNETCORE_ENVIRONMENT=Development --build-arg AWS_DEFAULT_REGION=AP-NORTHEAST-2 --build-arg AWS_ACCESS_KEY_ID=AKIAJG4PXAIR5DQTNS2Q --build-arg AWS_SECRET_ACCESS_KEY=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 .
-  # - docker tag rainbowappapi:latest 860436917626.dkr.ecr.ap-northeast-2.amazonaws.com/rainbow-api:development
   - docker images
-  # - docker push 860436917626.dkr.ecr.ap-northeast-2.amazonaws.com/rainbow-api:development
-  # - docker build -t rainbow-api --build-arg ASPNETCORE_ENVIRONMENT=$environment --build-arg AWS_DEFAULT_REGION=AP-NORTHEAST-2 --build-arg AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID --build-arg AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY .
-  #- docker tag $APP_NAME:$TRAVIS_BUILD_ID $AWS_ECR_ACCOUNT.dkr.ecr.us-east-1.amazonaws.com/$APP_NAME:$TRAVIS_BUILD_ID
   - docker tag $APP_NAME:latest $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
-  #- docker push $AWS_ECR_ACCOUNT.dkr.ecr.us-east-1.amazonaws.com/$APP_NAME:$TRAVIS_BUILD_ID
   - docker push $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
-
-# sudo: required #is required to use docker service in travis
-
-# language: generic #can be any language, just php for example
-
-# env:
-#   - environment=Development
-#   - APP_NAME=rainbow-api
-#   - AWS_ECR_ACCOUNT=860436917626
-#   - AWS_ACCESS_KEY_ID=AKIAJG4PXAIR5DQTNS2Q
-#   - AWS_SECRET_ACCESS_KEY=jJpdCwqNvKdmHC9TQ92wyehf66AMG9VcW8/tbQou
-
-# services:
-#   - docker # required, but travis uses older version of docker :(
-
-# # install:
-# #   - echo "install nothing!" # put your normal pre-testing installs here
-
-# # script:
-# #   - echo "no tests!" # put your normal testing scripts here
-
-# after_success:
-#   - docker --version  # document the version travis is using
-#   - pip install --user awscli # install aws cli w/o sudo
-#   - export PATH=$PATH:$HOME/.local/bin # put aws in the path
-#   - eval $(aws ecr get-login --no-include-email --region ap-northeast-2)
-#   - docker build -t rainbow-api --build-arg ASPNETCORE_ENVIRONMENT=$environment --build-arg AWS_DEFAULT_REGION=AP-NORTHEAST-2 --build-arg AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID --build-arg AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY .
-#   - docker tag rainbowappapi:latest $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
-#   - docker push $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
-  
