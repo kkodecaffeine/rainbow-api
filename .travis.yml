@@ -22,9 +22,10 @@ mono: none
 # os: windows
 
 before_install:
-- pip install
-- sudo apt-get update
-- sudo apt-get install python3
+  - sudo pip install awscli --upgrade --user
+# - pip install
+# - sudo apt-get update
+# - sudo apt-get install python3
 
 before_script:
   # - sudo pip install awscli --upgrade --user
