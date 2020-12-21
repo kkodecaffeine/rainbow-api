@@ -1,5 +1,5 @@
 sudo: required #is required to use docker service in travis
-# language: python
+language: python
 # language: generic
 
 env:
@@ -11,19 +11,19 @@ services:
 mono: none
 # dotnet: 3.1
 
-os: windows
-language: sh
-python: "3.8"
-before_install:
-  - choco install python3
-  - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
-  - python -m pip install
+# os: windows
+# language: sh
+# python: "3.8"
+# before_install:
+#   - choco install python3
+#   - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
+#   - python -m pip install
 
 # os: windows
 
-# before_install:
-#   - sudo pip install awscli --upgrade --user
-#   - export PATH=$PATH:$HOME/.local/bin
+before_install:
+  - sudo pip install -r requirements.txt
+  - sudo pip install awscli --upgrade --user
 # - pip install
 # - sudo apt-get update
 # - sudo apt-get install python3
@@ -31,7 +31,7 @@ before_install:
 before_script:
   # - sudo pip install awscli --upgrade --user
   # - export PATH=$PATH:$HOME/.local/bin
-  - aws configure export aws_access_key_id $AWS_ACCESS_KEY_ID
+  - aws configure export aws_access_key_id ${AWS_ACCESS_KEY_ID}
   - aws configure export aws_secret_access_key $AWS_SECRET_ACCESS_KEY
   - aws configure export default.region ap-northeast-2
   # - docker build -t rainbow-api .
