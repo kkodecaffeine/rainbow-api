@@ -22,6 +22,7 @@ mono: none
 # os: windows
 
 before_install:
+  - export PATH=$PATH:$HOME/.local/bin
   - sudo pip install awscli --upgrade --user
 # - pip install
 # - sudo apt-get update
@@ -29,7 +30,7 @@ before_install:
 
 before_script:
   # - sudo pip install awscli --upgrade --user
-  - export PATH=$PATH:$HOME/.local/bin
+  # - export PATH=$PATH:$HOME/.local/bin
   - aws configure export aws_access_key_id ${AWS_ACCESS_KEY_ID}
   - aws configure export aws_secret_access_key $AWS_SECRET_ACCESS_KEY
   - aws configure export default.region ap-northeast-2
