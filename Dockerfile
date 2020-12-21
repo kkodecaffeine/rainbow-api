@@ -3,7 +3,7 @@
 #Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
 #For more information, please see https://aka.ms/containercompat
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-nanoserver-1809 AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 ARG ASPNETCORE_ENVIRONMENT
 ARG AWS_DEFAULT_REGION
 ARG AWS_ACCESS_KEY_ID
@@ -19,7 +19,7 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["RainbowApp.Api/RainbowApp.Api.csproj", "RainbowApp.Api/"]
 COPY ["RainbowApp.Application/RainbowApp.Application.csproj", "RainbowApp.Application/"]

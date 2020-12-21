@@ -50,12 +50,11 @@ before_script:
 
 # script:
 #   - dotnet build ".\RainbowApp.sln" -c Release
-script:
-  - docker build -t rainbow-api .
+script: echo "Deploying to GitHub releases ..."
 
 after_success:
   - eval $(aws ecr get-login --no-include-email --region ap-northeast-2)
-  # - docker build -t rainbow-api .
+  - docker build -t rainbow-api .
   # - docker build -t rainbow-api --build-arg ASPNETCORE_ENVIRONMENT=Development --build-arg AWS_DEFAULT_REGION=AP-NORTHEAST-2 --build-arg AWS_ACCESS_KEY_ID=AKIAJG4PXAIR5DQTNS2Q --build-arg AWS_SECRET_ACCESS_KEY=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 .
   # - docker build -t rainbow-api --build-arg ASPNETCORE_ENVIRONMENT=Development --build-arg AWS_DEFAULT_REGION=AP-NORTHEAST-2 --build-arg AWS_ACCESS_KEY_ID=AKIAJG4PXAIR5DQTNS2Q --build-arg AWS_SECRET_ACCESS_KEY=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 .
   # - docker tag rainbowappapi:latest 860436917626.dkr.ecr.ap-northeast-2.amazonaws.com/rainbow-api:development
