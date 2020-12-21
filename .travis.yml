@@ -21,17 +21,23 @@ env:
 
 # os: windows
 
-before_install:
-  - export PATH=$PATH:$HOME/.local/bin
-  - sudo pip install awscli --upgrade --user
+# before_install:
+#   - export PATH=$PATH:$HOME/.local/bin
+#   - sudo pip install awscli --upgrade --user
 # - pip install
 # - sudo apt-get update
 # - sudo apt-get install python3
+language: python            # this works for Linux but is an error on macOS or Windows
+jobs:
+  include:
+    - name: "Python 3.8.0 on Xenial Linux"
+      python: 3.8           # this works for Linux but is ignored on macOS or Windows
+install: pip3 install --upgrade pip  # all three OSes agree about 'pip3'
 
 before_script:
   # - sudo pip install awscli --upgrade --user
   # - export PATH=$PATH:$HOME/.local/bin
-  - aws configure export aws_access_key_id ${AWS_ACCESS_KEY_ID}
+  - aws configure export aws_access_key_id $AWS_ACCESS_KEY_ID
   - aws configure export aws_secret_access_key $AWS_SECRET_ACCESS_KEY
   - aws configure export default.region ap-northeast-2
   # - docker build -t rainbow-api .
