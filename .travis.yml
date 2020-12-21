@@ -22,7 +22,6 @@ mono: none
 # os: windows
 
 before_install:
-  - pip install -r requirements.txt
   - sudo pip install awscli --upgrade --user
 # - pip install
 # - sudo apt-get update
