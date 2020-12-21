@@ -1,14 +1,14 @@
 sudo: required #is required to use docker service in travis
-language: python
+# language: python
 # language: generic
 
 env:
   - environment=Development APP_NAME=rainbow-api AWS_ECR_ACCOUNT=860436917626 AWS_ACCESS_KEY_ID=AKIAJG4PXAIR5DQTNS2Q AWS_SECRET_ACCESS_KEY=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
 
-services:
-  - docker
+# services:
+#   - docker
 
-mono: none
+# mono: none
 # dotnet: 3.1
 
 # os: windows
