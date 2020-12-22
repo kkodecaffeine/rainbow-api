@@ -29,4 +29,4 @@ after_success:
 notifications:
   slack:
     rooms:
-      - ubcareslack:EffFB5OqnmtfKWPiQJeBZ3sv#cell_rainbow_cicd
+      - ubcareslack:$SLACK_TOKEN#cell_rainbow_cicd
