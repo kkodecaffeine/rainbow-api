@@ -27,6 +27,7 @@ after_success:
   - docker push $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
 
 notifications:
+  email: false
   slack:
     rooms:
       - ubcareslack:EffFB5OqnmtfKWPiQJeBZ3sv#cell_rainbow_cicd
