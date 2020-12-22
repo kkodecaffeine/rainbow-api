@@ -2,7 +2,7 @@ sudo: required #is required to use docker service in travis
 language: python
 
 env:
-  - environment=Development APP_NAME=rainbow-api
+  - environment=development APP_NAME=rainbow-api
 
 jobs:
   include:
