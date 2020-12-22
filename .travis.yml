@@ -27,4 +27,6 @@ after_success:
   - docker push $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
 
 notifications:
-  slack: travis encrypt "ubcareslack:EffFB5OqnmtfKWPiQJeBZ3sv" --add notifications.slack
+  slack:
+    rooms:
+      - travis encrypt "ubcareslack:EffFB5OqnmtfKWPiQJeBZ3sv#cell_rainbow_cicd" --add notifications.slack
