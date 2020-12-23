@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MediatR;
+﻿using MediatR;
 using RainbowApp.Core.Entities;
 
 namespace RainbowApp.Application.Tasks.Queries
