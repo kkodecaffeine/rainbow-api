@@ -24,9 +24,6 @@ namespace RainbowApp.Api
 
                 if (Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID") != null)
                 {
-                    // Environment.SetEnvironmentVariable("AWS_ACCESS_KEY_ID", Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID"));
-                    // Environment.SetEnvironmentVariable("AWS_SECRET_ACCESS_KEY", Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY"));
-                    
                     awsOptions = new AWSOptions
                     {
                         Region = RegionEndpoint.APNortheast2,
