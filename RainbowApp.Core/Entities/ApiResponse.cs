@@ -15,7 +15,7 @@ namespace RainbowApp.Core.Entities
         {
             data = null;
             ResultStatusCode = HttpStatusCode.OK;
-            ApiV2Result = new ApiFailResult();
+            ApiV1Result = new ApiFailResult();
         }
 
         private bool isSucecss = false;
@@ -24,9 +24,14 @@ namespace RainbowApp.Core.Entities
 
         public HttpStatusCode ResultStatusCode { get; set; }
 
-        public ApiFailResult ApiV2Result { get; set; }
+        public ApiFailResult ApiV1Result { get; set; }
 
         private dynamic data;
+
+        public object GetResultData(int apiVersion, bool isReturnOnlyV1Data = true)
+        {
+            return IsSuccess ? data : ApiV1Result;
+        }
 
         public void SetFailStatusCode(HttpStatusCode statusCode)
         {
@@ -34,10 +39,10 @@ namespace RainbowApp.Core.Entities
             ResultStatusCode = statusCode;
         }
 
-        public void SetFail(HttpStatusCode statusCode,int code, string message)
+        public void SetFail(HttpStatusCode statusCode, int code, string message)
         {
             SetFailStatusCode(statusCode);
-            ApiV2Result = new ApiFailResult { Code = code, Message = message };
+            ApiV1Result = new ApiFailResult { Code = code, Message = message };
         }
 
         public void SetSuccess(HttpStatusCode statusCode = HttpStatusCode.OK)
@@ -56,13 +61,13 @@ namespace RainbowApp.Core.Entities
         public void SetNotfoundResult()
         {
             SetFailStatusCode(HttpStatusCode.NotFound);
-            ApiV2Result = new ApiFailResult() { Code = 20024, Message = "Does not exists" };
+            ApiV1Result = new ApiFailResult() { Code = 20024, Message = "Does not exists" };
         }
 
         public void SetPermissionDenied()
         {
             SetFailStatusCode(HttpStatusCode.Forbidden);
-            ApiV2Result = new ApiFailResult() { Code = 20023, Message = "Permission Denied" };
+            ApiV1Result = new ApiFailResult() { Code = 20023, Message = "Permission Denied" };
         }
     }
 }

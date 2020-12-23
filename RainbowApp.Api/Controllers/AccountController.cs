@@ -25,15 +25,15 @@ namespace RainbowApp.Api.Controllers
         }
         
         [HttpGet]
-        public async Task<ActionResult<TblAccount>> GetAccount(SignInRequest model)
+        public async Task<IActionResult> GetAccount(SignInRequest model)
         {
             var response = await Mediator.Send(new GetAccountsQuery { Email = model.Email, Password = model.Password });
-            if (response[0] == null)
+            if (response.IsSuccess == false)
             {
-                return BadRequest(new { message = "Email or password is incorrect" });
+                return Json(response.ResultStatusCode, response.GetResultData(1));
             }
 
-            return Ok(response[0]);
+            return Json(new { statusCode = response.ResultStatusCode, content = response.GetResultData(1) });
         }
 
         [HttpPost("add")]

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -9,7 +10,7 @@ using RainbowApp.Core.Entities;
 
 namespace RainbowApp.Application.Tasks.Handlers
 {
-    public class GetAccountsQueryHandler : IRequestHandler<GetAccountsQuery, List<Account>>
+    public class GetAccountsQueryHandler : IRequestHandler<GetAccountsQuery, ApiResponse>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -19,11 +20,21 @@ namespace RainbowApp.Application.Tasks.Handlers
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-
-        public async Task<List<Account>> Handle(GetAccountsQuery request, CancellationToken cancellationToken)
+        
+        public async Task<ApiResponse> Handle(GetAccountsQuery request, CancellationToken cancellationToken)
         {
+            var apiResult = new ApiResponse();
             var result = await _unitOfWork.Accounts.GetUser(request.Email, request.Password);
-            return _mapper.Map<List<Account>>(new [] { result });
+
+            if (result == null)
+            {
+                apiResult.SetFail(HttpStatusCode.NotFound, 1001, "This account does not exist");
+                return _mapper.Map<ApiResponse>(apiResult);
+            }
+
+            apiResult.SetSuccessData(result);
+
+            return _mapper.Map<ApiResponse>(apiResult);
         }
     }
 }
