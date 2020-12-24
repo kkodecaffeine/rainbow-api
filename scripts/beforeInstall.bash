@@ -1,9 +1,9 @@
-if [ -d /home/ubuntu/deploy ]; then
-    rm -rf /home/ubuntu/deploy
-fi
+# if [ -d /home/ubuntu/deploy ]; then
+#     rm -rf /home/ubuntu/deploy
+# fi
 # 만약 /home/ubuntu/build 디렉토리가 존재하면 지운다는 의미입니다.
 
-mkdir -vp /home/ubuntu/deploy
+# mkdir -vp /home/ubuntu/deploy
 # 다시 새로운 /home/ubuntu/build 디렉토리를 생성합니다.
 
 docker stop rainbow-api
