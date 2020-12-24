@@ -31,4 +31,4 @@ notifications:
   email: false
   slack:
     rooms:
-      - ubcareslack:EffFB5OqnmtfKWPiQJeBZ3sv#cell_rainbow_cicd
+      - twofingersbehind:EffFB5OqnmtfKWPiQJeBZ3sv#cell_rainbow_cicd
