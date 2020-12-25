@@ -31,14 +31,6 @@ after_success:
   - docker push $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
   - bash scripts/ecs-deploy.sh
 
-# deploy:
-#   provider: codedeploy
-#   access_key_id: AKIA4QVQJNV5AYA63T4P
-#   secret_access_key: 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
-#   application: CodeDeploy-API
-#   deployment_group: rainbow-api
-#   region: ap-northeast-2
-
 notifications:
   email: false
   slack:
