@@ -11,6 +11,10 @@ jobs:
 install:
   - pip3 install --upgrade pip
   - sudo apt-get install awscli
+  # install ecs-deploy
+  - curl https://raw.githubusercontent.com/silinternational/ecs-deploy/master/ecs-deploy | sudo tee /usr/bin/ecs-deploy
+  - sudo chmod +x /usr/bin/ecs-deploy
+
 
 before_script:
   - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
