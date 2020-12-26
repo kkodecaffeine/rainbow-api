@@ -2,7 +2,7 @@ sudo: required #is required to use docker service in travis
 language: python
 
 env:
-  - environment=development APP_NAME=rainbow-api
+  - environment=development APP_NAME=rainbow-api TASK_ID=0 TASK_REVISION=0
 
 jobs:
   include:
@@ -30,6 +30,10 @@ after_success:
   - docker tag $APP_NAME:latest $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
   - docker push $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
   - bash scripts/ecs-deploy.sh
+  - $TASK_ID=`aws ecs list-tasks -c $CLUSTER_NAME --desired-status RUNNING --family $TASK_DEFINITION_API | egrep "task" | tr "/" " " | tr "[" " " |  awk '{print $2}' | sed 's/"$//'`
+  - $TASK_REVISION=`aws ecs describe-task-definition --task-definition $TASK_DEFINITION_API | egrep "revision" | tr "/" " " | awk '{print $2}' | sed 's/"$//'`
+  - aws ecs stop-task -c $CLUSTER_NAME --task $TASK_ID
+  - aws ecs update-service -c $CLUSTER_NAME --service $SERVICE_NAME --task-definition $TASK_DEFINITION_API:$TASK_REVISION --desired-count 1
 
 notifications:
   email: false
