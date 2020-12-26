@@ -12,17 +12,17 @@ namespace RainbowApp.Api.Controllers
     [ApiController]
     public class AccountController : ApiController
     {
-        // [HttpPost("authenticate")]
-        // public async Task<ActionResult<TblAccount>> Authenticate(AuthenticateRequest model)
-        // {
-        //     var response = await Mediator.Send(new CreateAuthCommand { Email = model.Email, Password = model.Password });
-        //     if (response == null)
-        //     {
-        //         return BadRequest(new { message = "Email or password is incorrect" });
-        //     }
+        [HttpPost("authenticate")]
+        public async Task<ActionResult<TblAccount>> Authenticate(AuthenticateRequest model)
+        {
+            var response = await Mediator.Send(new CreateAuthCommand { Email = model.Email, Password = model.Password });
+            if (response == null)
+            {
+                return BadRequest(new { message = "Email or password is incorrect" });
+            }
 
-        //     return Ok(response);
-        // }
+            return Ok(response);
+        }
         
         [HttpGet]
         public async Task<IActionResult> GetAccount(SignInRequest model)
