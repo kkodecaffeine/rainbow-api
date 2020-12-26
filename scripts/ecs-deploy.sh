@@ -7,7 +7,7 @@ if [ "$TRAVIS_BRANCH" == "master" ]; then
 # --run-task                   Run created task now. If you set this, service-name are not needed.
 
 echo "Deploying $TRAVIS_BRANCH on $CLUSTER_NAME"
-ecs-deploy -t 30 -c $CLUSTER_NAME -n $SERVICE_NAME -i $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
+ecs-deploy -t 20 -c $CLUSTER_NAME -n $SERVICE_NAME -i $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
 
 else
 echo "Skipping deploy because it's not an allowed branch"

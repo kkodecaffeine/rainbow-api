@@ -29,13 +29,13 @@ after_success:
   - docker images
   - docker tag $APP_NAME:latest $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
   - docker push $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
-  
+
   - bash scripts/ecs-deploy.sh
 
-  - TASK_ID=`aws ecs list-tasks --cluster $CLUSTER_NAME --desired-status RUNNING --family $TASK_DEFINITION_API | egrep "task" | tr "/" " " | tr "[" " " |  awk '{print $2}' | sed 's/"$//'`
+  - TASK_ID=`aws ecs list-tasks --cluster $CLUSTER_NAME --desired-status RUNNING --family $TASK_DEFINITION_API | egrep "task/" | sed -E "s/.*task\/(.*)\"/\1/"`
   - TASK_REVISION=`aws ecs describe-task-definition --task-definition $TASK_DEFINITION_API | egrep "revision" | tr "/" " " | awk '{print $2}' | sed 's/"$//'`
-  - aws ecs stop-task --cluster $CLUSTER_NAME --task ${TASK_ID}
-  - aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --task-definition $TASK_DEFINITION_API:${TASK_REVISION} --desired-count 1
+  - aws ecs stop-task --cluster $CLUSTER_NAME --task $TASK_ID
+  - aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --task-definition $TASK_DEFINITION_API:$TASK_REVISION --desired-count 1
 
 notifications:
   email: false
