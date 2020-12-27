@@ -33,7 +33,7 @@ namespace RainbowApp.Api.Controllers
                 return Json(response.ResultStatusCode, response.GetResultData(1));
             }
 
-            return Json(new { statusCode = response.ResultStatusCode, content = response.GetResultData(1) });
+            return Json(new { statusCode = response.ResultStatusCode, response = response.GetResultData(1) });
         }
 
         [HttpPost("add")]
