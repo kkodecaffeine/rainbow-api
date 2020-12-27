@@ -25,10 +25,9 @@ script: echo "Deploying to AWS ECR releases ..."
 
 after_success:
   - eval $(aws ecr get-login --no-include-email --region ap-northeast-2)
-  - docker rmi $(docker images -f "dangling=true" -q)
   - docker rmi $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
-  - docker rmi 
   - docker build -t rainbow-api --build-arg ASPNETCORE_ENVIRONMENT=$environment --build-arg AWS_DEFAULT_REGION=ap-northeast-2 --build-arg AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID --build-arg AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY .
+  - docker rmi $(docker images -f "dangling=true" -q)
   - docker images
   - docker tag $APP_NAME:latest $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
   - docker push $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
