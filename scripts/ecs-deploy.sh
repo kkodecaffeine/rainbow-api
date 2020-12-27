@@ -16,7 +16,10 @@ aws ecs deregister-task-definition --task-definition "$TASK_DEFINITION_API:${CUR
 
 ecs-deploy -t 20 -c $CLUSTER_NAME -n $SERVICE_NAME -i $AWS_ECR_ACCOUNT.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME:$environment
 NXT_REVISION=`aws ecs describe-task-definition --task-definition $TASK_DEFINITION_API | egrep "revision" | tr "/" " " | awk '{print $2}' | sed 's/"$//'`
-aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --force-new-deployment --task-definition $TASK_DEFINITION_API:${NXT_REVISION} --desired-count 1
+# aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --task-definition $TASK_DEFINITION_API:${NXT_REVISION} --desired-count 1
+aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --task-definition $TASK_DEFINITION_API --desired-count 1
+
+#aws ecs update-service --cluster ${CLUSTER_NAME} --service ${SERVICE_NAME} --task-definition ${TASK_FAMILY} --desired-count ${DESIRED_COUNT}
 
 else
 echo "Skipping deploy because it's not an allowed branch"
