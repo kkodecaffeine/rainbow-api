@@ -13,7 +13,10 @@ OLD_TASK_ID=`aws ecs list-tasks --cluster $CLUSTER_NAME --desired-status RUNNING
 TASK_REVISION=`aws ecs describe-task-definition --task-definition $TASK_DEFINITION_API | egrep "revision" | tr "/" " " | awk '{print $2}' | sed 's/"$//'`
 
 aws ecs stop-task --cluster $CLUSTER_NAME --task ${OLD_TASK_ID}
-aws ecs deregister-task-definition --task-definition $TASK_DEFINITION_API:${OLD_TASK_ID}
+
+CURRNET_REVISION=$(aws ecs describe-task-definition --task-definition $TASK_DEFINITION_API --query 'taskDefinition.revision' --output text)
+aws ecs deregister-task-definition --task-definition "$TASK_DEFINITION_API:${CURRNET_REVISION}"
+
 aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --force-new-deployment --task-definition $TASK_DEFINITION_API:${TASK_REVISION} --desired-count 1
 
 else
