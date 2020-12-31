@@ -40,7 +40,13 @@ namespace RainbowApp.Api.Controllers
         [CustomExceptionFilter]
         public async Task<ActionResult<int>> Create(RegisterRequest model)
         {
-            return await Mediator.Send(new CreateAccountCommand { RegisterRequest = model, Origin = Request.Headers["origin"] });
+            var response = await Mediator.Send(new CreateAccountCommand { RegisterRequest = model, Origin = Request.Headers["origin"] });
+            if (response.IsSuccess == false)
+            {
+                return Json(response.ResultStatusCode, response.GetResultData(1));
+            }
+
+            return Json(new { statusCode = response.ResultStatusCode, response = response.GetResultData(1) });
         }
 
         // POST   /api/v1/account/password    - To create new password(if user has reset the password)

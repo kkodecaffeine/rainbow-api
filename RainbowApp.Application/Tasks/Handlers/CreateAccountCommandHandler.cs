@@ -5,10 +5,11 @@ using RainbowApp.Application.Interfaces;
 using RainbowApp.Application.Tasks.Commands;
 using RainbowApp.Core.Entities;
 using AutoMapper;
+using System.Net;
 
 namespace RainbowApp.Application.Tasks.Handlers
 {
-    public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand, int>
+    public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand, ApiResponse>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -19,10 +20,20 @@ namespace RainbowApp.Application.Tasks.Handlers
             _mapper = mapper;
         }
 
-        public async Task<int> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+        public async Task<ApiResponse> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
+            var apiResult = new ApiResponse();
             var result = await _unitOfWork.Accounts.AddUser(_mapper.Map<RegisterRequest>(request.RegisterRequest), request.Origin);
-            return result;
+            
+            if (result == 0)
+            {
+                apiResult.SetFail(HttpStatusCode.BadRequest, 1002, "This account exist");
+                return _mapper.Map<ApiResponse>(apiResult);
+            }
+
+            apiResult.SetSuccessData(result);
+
+            return apiResult;
         }
 
         public async Task<int> Handle(CreateResetPasswordCommand request, CancellationToken cancellationToken)
